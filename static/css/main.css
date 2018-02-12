@@ -1,0 +1,24 @@
+
+
+.font {
+	font-weight: bold;
+}
+
+
+.outer-container {
+	position: relative;
+}
+ 
+.inner-container {
+	height: 720px;
+ 	overflow-x: scroll;
+ 	overflow-y: scroll;
+}
+ 
+.inner-container::-webkit-scrollbar {
+ 	display: none;
+}
+::-webkit-scrollbar {
+ 	display: none;
+}
+
