@@ -21,6 +21,8 @@
         <link rel="stylesheet" href="{%static 'dist/css/skins/_all-skins.min.css'%}">
         <link rel="stylesheet" href="{%static 'css/main.css'%}">
         <link rel="stylesheet" href="{%static 'select2/dist/css/select2.min.css'%}">
+
+        <link href="http://cdn.bootcss.com/highlight.js/8.0/styles/monokai_sublime.min.css" rel="stylesheet">  
         <!-- Theme style -->
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -595,7 +597,10 @@
     reserved.
   </footer>
 
-<!-- jQuery 3 -->
+<script src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+
+
+
 <script src="{%static 'jquery/dist/jquery.min.js'%} "></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="{%static 'bootstrap/dist/js/bootstrap.min.js'%} "></script>
@@ -625,7 +630,7 @@
 <script src="{%static 'iCheck/icheck.min.js'%}"></script>
 <!-- FastClick -->
 
-
+<script >hljs.initHighlightingOnLoad();</script>  
 
 
 <!-- Page script -->
