@@ -1,7 +1,7 @@
 * 简体中文
 * [English]()
 
-![Alt text](https://camo.githubusercontent.com/4da62e9d0a03f219020490243608ab79088fa6b2/68747470733a2f2f696d672e626c657373696e672e73747564696f2f696d616765732f323031372f30312f30312f62732d6c6f676f2e706e67)
+![Alt text](img/log.png)
 
  
 
@@ -46,7 +46,7 @@ BoomSquare 对您的服务器有一定的要求。
 
 
 ### 快速指南
-![Alt text](img/log.png)
+
 
 #### Python 环境安装
 
