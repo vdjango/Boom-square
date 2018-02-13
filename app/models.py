@@ -6,21 +6,25 @@ import json
 
 def App_GET_Text_all():
     t = App_Blog.objects.all()
+
     return t
 
 
 def App_GET_Text():
-    text = App_Blog.objects.get(username='1748011755')
+    usernames = User.objects.get(username='1748011755')
+    text = App_Blog.objects.get(username=usernames)
     return text
 
 
 def App_SAVE_Text(username, title, content, time_now=None):
-    import time
-    times = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+    from app.utli.datetimenow import UTCS
 
+    data = UTCS()
+    times = "%s-%s-%s %s:%s:%s" % (data.year, data.month,
+                                   data.day, data.hour, data.minute, data.second)
     usernames = User.objects.get(username=username)
 
-    if not time_now:
+    if time_now == None:
         App_b = App_Blog(title=title, content=content,
                          time_add=times, time_now=times, username=usernames)
     else:
@@ -28,6 +32,16 @@ def App_SAVE_Text(username, title, content, time_now=None):
                          time_now=time_now, username=usernames)
 
     App_b.save()
+
+    return times
+
+
+def archive():
+    # datetimes() 方法返回一个 python 的 datetimes 对象列表
+    # 对应着每篇文章的发表时间
+    # month 表示精确到月份，DESC 表示降序排列
+    dates = App_Blog.objects.datetimes('time_now', 'month', order='DESC')
+    return dates
 
 
 class App_Blog(models.Model):
@@ -44,5 +58,5 @@ class App_Blog(models.Model):
     time_now = models.DateTimeField(auto_now=True, auto_now_add=False)  # 更新
     username = models.ForeignKey(User)
 
-    def __str__(self):
-        return self.username
+    class Meta:
+        ordering = ['-time_now']

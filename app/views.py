@@ -38,8 +38,10 @@ def create(request):
 
         if title and content:
             models.App_SAVE_Text(username, title, content)
+
             return HttpResponseRedirect('/')
         else:
             content = {'title': title,
                        'content': content, 'err': u'不能为空'}
+
             return render(request, 'create.html', content)

@@ -2,47 +2,67 @@ from django.shortcuts import render
 from app.models import App_GET_Text_all
 from django.contrib.auth.decorators import login_required
 import markdown
+from app.utli import datetimenow
 
 
-def DateTimes(datetime_from_db):
-    from datetime import datetime
-    '''
-    datetime_from_db = '2015-10-26 00:00:00'
-    '''
-    datetime_of_datetime_from_db = datetime.strptime(
-        datetime_from_db, "%Y-%m-%d %H:%M:%S")
-    delta_time = datetime.now() - datetime_of_datetime_from_db
-    if delta_time.days <= 0:
-        return True
-    else:
-        return False
+class log():
+    def d(l, arg):
+        print('Log.d:', l, arg)
+        pass
 
 
 @login_required(login_url='/auth/login/')
 def user_home(request):
-    t = App_GET_Text_all()
-    content_list = []
-    time_list = []
-    T = False
+    cont = App_GET_Text_all()
 
-    for i in t:
-        print(str(i.time_now).split('.')[0].split(' ')[1])
-        if DateTimes(str(i.time_now).split('.')[0]):
-            tis = str(i.time_now).split('.')[0].split(' ')[1]
-            T = True
-        else:
-            tis = i.time_now
-            T = False
+    # content_dict = {}
+    value_dict = {}
+    # conlist_dict = {}
+    value = []
+    # contents_dicts = {}
 
-        time_list.append({'time_now': tis, 'T': T})
+    time_date = '2018-01-01 00:00:00'
 
+    username = request.user.username
+
+    Inits = 0
+
+    for i in cont:
+        data = datetimenow.datetimenow(i.time_now)
         mark = markdown.markdown(i.content)
+        __, number = datetimenow.DateTimes(str(data).split('.')[0])
 
-        content_list.append(
-            {'title': i.title, 'content': mark,
-                'username': i.username, 'time_now': tis, 'T': T}
-        )
+        if int(Inits) == int(number):
+            value.append({"title": i.title, "content": mark, "username": str(i.username),
+                          "time_now": str(data).split('.')[0], "T": "0"})
+            time_date = str(data).split('.')[0]
+            log.d('value.append', 'Add')
 
-    content = {'username': request.user.username,
-               'content_list': content_list, 'time_list': time_list}
+        else:
+            log.d('value_dict', 'Add')
+            value_dict[str(Inits)] = {
+                'time': time_date,
+                'contents_dicts': value
+            }
+            value = []
+            Inits = int(number)
+
+    if len(value) > 1:
+        log.d('len(value)', len(value))
+        value_dict[str(Inits)] = {
+            'time': time_date,
+            'contents_dicts': value
+        }
+        value = []
+        Inits = int(number)
+
+    content = {
+        'username': str(username),
+        'value_dict': value_dict
+    }
+
+    log.d('content', content)
+
+    # return HttpResponse(json.dumps(content_list1))
+
     return render(request, 'home/home.html', content)

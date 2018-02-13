@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load dict_key %}
 <!DOCTYPE html>
 <html>
     <head>
@@ -343,7 +344,14 @@
         <div class="row ">
             <div class="col-md-12 ">
                 <!-- The time line -->
-                <ul class="timeline ">
+
+                <ul class="timeline">
+
+  
+     
+ 
+ 
+
                     <!-- /.timeline-label -->
                     <!--
                         邮件ico
@@ -362,6 +370,12 @@
                     <!-- timeline item -->
 
                 <!--
+                        <li class="time-label ">
+                            <span class="bg-red">
+                                {{item.time_now}} 
+                            </span>
+                        </li>
+
                     <li>
                         <i class="fa fa-comments bg-yellow"></i>
 
@@ -400,43 +414,76 @@
                 -->
 
                     
-                    {% if not T %}
+                    
+
+                        
+
+                    {% for keys, value in value_dict.items %}
                         <li class="time-label ">
+                            {% if value|key:"time"|time_get %}
                             <span class="bg-green">
-                                今天留言
+                                {{value|key:"time"|time_key}} 
                             </span>
-                        </li>
-                    {% endif %}
-
-                    {% for item  in content_list %}
-
-                    {% if T %}
-                        <li class="time-label ">
+                            {% else %}
                             <span class="bg-red">
-                                {{item.time_now}} 
+                                {{value|key:"time"|time_key:":0"}} 
                             </span>
+                            {% endif %}
                         </li>
-                    {% endif %}
-
-                    {% autoescape off %}
-
-                    <li>
+                        
+                        {% for v in value|key:"contents_dicts" %}
+                            
+<li>
                         <i class="fa fa-comments bg-yellow"></i>
 
                         <div class="timeline-item">
-                            <span class="time"><i class="fa fa-clock-o"></i>{{item.time_now}}</span>
-                            <span class="time"><i class="fa fa-user"></i><a href="">{{item.username}}</a> </span>
+                            <span class="time"><i class="fa fa-clock-o"></i> 
+                                {{ v|key:"time_now"|safe|time_key:":1" }} 
+                            </span>
+                            <span class="time"><i class="fa fa-user"></i><a href="">{{ v|key:"username"|safe }} </a> </span>
 
-                            <h3 class="timeline-header"> <a href="#">{{item.title}}</a></h3>
+                            <h3 class="timeline-header"> <a href="#">{{ v|key:"title" }} </a></h3>
 
                             <div class="timeline-body">
-                                {{item.content}}
+                                {{ v|key:"content"|safe }} 
                             </div>
+                            
+                            <!--
+                            <div class="timeline-body">
+                                <img src="http://placehold.it/150x100" alt="..." class="margin">
+                                <img src="http://placehold.it/150x100" alt="..." class="margin">
+                                <img src="http://placehold.it/150x100" alt="..." class="margin">
+                                <img src="http://placehold.it/150x100" alt="..." class="margin">
+                            </div>
+                        -->
+
+                            <!--
+                            <div class="timeline-body">
+                                <div class="embed-responsive embed-responsive-16by9">
+                                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/tMWkeBIohBs"
+                                        frameborder="0" allowfullscreen></iframe>
+                                </div>
+                            </div>
+                        -->
+
+                            <div class="timeline-footer">
+                                <a class="btn btn-primary btn-xs">编辑</a>
+                                <!--<a class="btn btn-danger btn-xs">删除</a>-->
+                            </div>
+                            
                             <br>
                         </div>
                     </li>
-                    {% endautoescape %}
+                        {% endfor %}
+                        
                     {% endfor %}
+
+                   
+
+   
+  
+
+
 
 
                     <li>

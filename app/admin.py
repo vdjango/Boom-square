@@ -2,6 +2,7 @@
 from django.contrib import admin
 
 from account.models import User
+from app.models import App_Blog
 
 
 class MyAdminSite(admin.AdminSite):
@@ -11,8 +12,17 @@ class MyAdminSite(admin.AdminSite):
 
 
 class MomentAdmin(admin.ModelAdmin):
-    empty_value_display = "空值"
-    headline_empty_value_display = "未设置标题"
+    list_display = ["title", "content", "time_now", "username"]
+
+    # 自定义后台过滤器
+    list_filter = ["time_add"]
+
+    # 自定义后台搜索
+    search_fields = ["title", "content"]
+
+    class Meta:
+        model = App_Blog
+
 
 # UserName Admin job
 # PassWord Admin job123.com
@@ -21,3 +31,4 @@ class MomentAdmin(admin.ModelAdmin):
 # Register your models here.
 # admin_site = MyAdminSite()
 admin.site.register(User)
+admin.site.register(App_Blog, MomentAdmin)
