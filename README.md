@@ -48,25 +48,27 @@ BoomSquare 对您的服务器有一定的要求。
 
 ### 快速指南
 ![Alt text](img/log.png)
+
 #### Python 环境安装
-* CentOS 7 安装epel YUM源 
+
+*CentOS 7 安装epel YUM源*
 
     wget http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
     rpm -ivh epel-release-latest-7.noarch.rpm
     yum makecache
    
-* 或者通过yum直接安装
+*或者通过yum直接安装*
 
     yum install epel-release -y
     # 如果安装失败，请通过上面命令安装，不要忘记清缓存yum makecache
 
-* CentOS 6 安装epel YUM 源
+*CentOS 6 安装epel YUM 源*
 
     wget http://mirrors.ustc.edu.cn/fedora/epel/6/x86_64/epel-release-6-8.noarch.rpm
     rpm -ivh epel-release-6-8.noarch.rpm
     yum makecache
 
-* 安装完事后，开始安装python36或者python34环境[本人使用python36]
+*安装完事后，开始安装python36或者python34环境[本人使用python36]*
 
     yum install python36 wget
 
@@ -75,15 +77,15 @@ BoomSquare 对您的服务器有一定的要求。
 
 #### pip工具以及uwsgi 安装 [WEB]
     
-* 开始下载pip 
+*开始下载pip*
 
     wget https://bootstrap.pypa.io/get-pip.py
     
-* 然后就是安装pip
+*然后就是安装pip*
 
     python3.6 get-pip.py
 
-* 用pip安装Django == 1.9.2，和uwsgi
+*用pip安装Django == 1.9.2，和uwsgi*
 
     pip3.6 install Django==1.9.2
     pip3.6 install uwsgi
