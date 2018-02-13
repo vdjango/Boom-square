@@ -56,7 +56,6 @@ BoomSquare 对您的服务器有一定的要求。
     rpm -ivh epel-release-latest-7.noarch.rpm
     yum makecache
  
- 
 *或者通过yum直接安装*
 
     yum install epel-release -y
@@ -71,9 +70,6 @@ BoomSquare 对您的服务器有一定的要求。
 *安装完事后，开始安装python36或者python34环境[本人使用python36]*
 
     yum install python36 wget
-
-
-
 
 #### pip工具以及uwsgi 安装 [WEB]
     
