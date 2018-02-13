@@ -413,10 +413,12 @@
                     </li>
                 -->
 
-                    
-                    
+ 
 
-                        
+    
+ 
+
+
 
                     {% for keys, value in value_dict.items %}
                         <li class="time-label ">
@@ -433,55 +435,60 @@
                         
                         {% for v in value|key:"contents_dicts" %}
                             
-<li>
-                        <i class="fa fa-comments bg-yellow"></i>
-
-                        <div class="timeline-item">
-                            <span class="time"><i class="fa fa-clock-o"></i> 
-                                {{ v|key:"time_now"|safe|time_key:":1" }} 
-                            </span>
-                            <span class="time"><i class="fa fa-user"></i><a href="">{{ v|key:"username"|safe }} </a> </span>
-
-                            <h3 class="timeline-header"> <a href="#">{{ v|key:"title" }} </a></h3>
-
-                            <div class="timeline-body">
-                                {{ v|key:"content"|safe }} 
-                            </div>
+                        <li>
+                            <i class="fa fa-comments bg-yellow"></i>
+                            <div class="panel timeline-item">
                             
-                            <!--
-                            <div class="timeline-body">
-                                <img src="http://placehold.it/150x100" alt="..." class="margin">
-                                <img src="http://placehold.it/150x100" alt="..." class="margin">
-                                <img src="http://placehold.it/150x100" alt="..." class="margin">
-                                <img src="http://placehold.it/150x100" alt="..." class="margin">
+                                <span class="time"><i class="fa fa-clock-o"></i> 
+                                    {{ v|key:"time_now"|safe|time_key:":1" }} 
+                                </span>
+                                <span class="time"><i class="fa fa-user"></i>
+                                    <a href="">
+                                        {{ v|key:"username"|safe }} 
+                                    </a> 
+                                </span>
+                                <span class="time"><i class="fa fa-clock-o"></i>编辑</span>
+                                <h3 class="timeline-header"> <a href="#">
+                                    <a data-toggle="collapse" data-parent="#accordion" href='#{{v|key:"id"|safe}}'>{{ v|key:"title" }}</a></a>
+                                </h3>
+                                
+                                {% if value|key:"time"|time_get %}
+                                    <div id='{{v|key:"id"|safe}}' class="panel-collapse collapse in">
+                                        <div class="box-body">
+                                            <div class="timeline-body">
+                                               {{ v|key:"content"|safe }} 
+                                            </div>
+                                            <br>
+                                            <div class="timeline-footer">
+                                                <a class="btn btn-primary btn-xs">编辑</a>
+                                                <a class="btn btn-danger btn-xs">删除</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <div id='{{v|key:"id"|safe}}' class="panel-collapse collapse">
+                                        <div class="box-body">
+                                            <div class="timeline-body">
+                                               {{ v|key:"content"|safe }} 
+                                            </div>
+                                            <br>
+                                            <div class="timeline-footer">
+                                                <a class="btn btn-primary btn-xs">编辑</a>
+                                                <a class="btn btn-danger btn-xs">删除</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                
                             </div>
-                        -->
-
-                            <!--
-                            <div class="timeline-body">
-                                <div class="embed-responsive embed-responsive-16by9">
-                                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/tMWkeBIohBs"
-                                        frameborder="0" allowfullscreen></iframe>
-                                </div>
-                            </div>
-                        -->
-
-                            <div class="timeline-footer">
-                                <a class="btn btn-primary btn-xs">编辑</a>
-                                <!--<a class="btn btn-danger btn-xs">删除</a>-->
-                            </div>
-                            
-                            <br>
-                        </div>
-                    </li>
+                        </li>
                         {% endfor %}
                         
                     {% endfor %}
 
-                   
+      
 
-   
-  
+
 
 
 

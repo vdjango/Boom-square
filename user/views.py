@@ -28,13 +28,14 @@ def user_home(request):
     Inits = 0
 
     for i in cont:
+        ids = i.id
         data = datetimenow.datetimenow(i.time_now)
         mark = markdown.markdown(i.content)
         __, number = datetimenow.DateTimes(str(data).split('.')[0])
 
         if int(Inits) == int(number):
             value.append({"title": i.title, "content": mark, "username": str(i.username),
-                          "time_now": str(data).split('.')[0], "T": "0"})
+                          "time_now": str(data).split('.')[0], "id": ids})
             time_date = str(data).split('.')[0]
             log.d('value.append', 'Add')
 
