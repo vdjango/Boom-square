@@ -1,22 +1,16 @@
-
-# Boom-square
-
-
-
-
 # 欢迎使用崩坏广场
-![Alt text](https://camo.githubusercontent.com/4da62e9d0a03f219020490243608ab79088fa6b2/68747470733a2f2f696d672e626c657373696e672e73747564696f2f696d616765732f323031372f30312f30312f62732d6c6f676f2e706e67)
 
-
-# 安装说明暂且不完整，请另寻方法[uwsgi]
-
-
------
 
 * 简体中文
 * [English]()
 
------
+
+
+![Alt text](https://camo.githubusercontent.com/4da62e9d0a03f219020490243608ab79088fa6b2/68747470733a2f2f696d672e626c657373696e672e73747564696f2f696d616765732f323031372f30312f30312f62732d6c6f676f2e706e67)
+
+
+
+ 
 
 **崩坏广场**是一款专为留言板，个人博客等（BoomSquare）打造的WEB网站，通过精心的设计与耐心的研究，配合Markdown强大的排版功能，带来前所未有的书写体验。特点概述：
  
@@ -46,7 +40,8 @@ BoomSquare 对您的服务器有一定的要求。
 * 一台支持 URL 重写的主机，Nginx、Apache 和 uwsgi
 * Python > 3.0 （服务器不支持？）
 * 安装如下 Python 扩展：
-    * pip  >= 8.0
+
+	* pip  >= 8.0
     * Django >= 1.9.0
     * Markdown
     * setuptools
@@ -59,8 +54,8 @@ BoomSquare 对您的服务器有一定的要求。
 #### Python 环境安装
 * CentOS 7 安装epel YUM源 
 
-    wget http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-    rpm -ivh epel-release-latest-7.noarch.rpm
+	wget http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+	rpm -ivh epel-release-latest-7.noarch.rpm
     yum makecache
    
 * 或者通过yum直接安装
