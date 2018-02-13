@@ -20,7 +20,7 @@
 * 专注你的文字内容而不是排版样式，安心写作。
 * 随时修改你的文章版本，不必像字处理软件生成若干文件版本导致混乱。
 * 可读、直观、学习成本低。
-* 统一管理我的世界账号，实现与登陆插件对接等功能
+* 统一管理authme账号，实现与登陆插件对接等功能
 
 #### **得心应手** ：
 
@@ -51,8 +51,8 @@ BoomSquare 对您的服务器有一定的要求。
 #### Python 环境安装
 * CentOS 7 安装epel YUM源 
 
-	wget http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-	rpm -ivh epel-release-latest-7.noarch.rpm
+    wget http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+    rpm -ivh epel-release-latest-7.noarch.rpm
     yum makecache
    
 * 或者通过yum直接安装
@@ -71,7 +71,8 @@ BoomSquare 对您的服务器有一定的要求。
     yum install python36 wget
 
 
------
+
+
 #### pip工具以及uwsgi 安装 [WEB]
     
 * 开始下载pip 
@@ -109,7 +110,7 @@ BoomSquare 对您的服务器有一定的要求。
 
 
 
------
+
 
 ## Markdown简介
 
