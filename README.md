@@ -55,7 +55,8 @@ BoomSquare 对您的服务器有一定的要求。
     wget http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
     rpm -ivh epel-release-latest-7.noarch.rpm
     yum makecache
-   
+ 
+ 
 *或者通过yum直接安装*
 
     yum install epel-release -y
