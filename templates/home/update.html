@@ -301,6 +301,8 @@
             </section>
             <!-- /.sidebar -->
         </aside>
+
+
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper inner-container">
             <!-- Content Header (Page header) -->
@@ -328,27 +330,64 @@
                                 <h3 class="box-title">更新信息</h3>
                             </div>
                             <div class="box-body">
+
+
+
                                 <div class="callout callout-info">
-                                    <i class="icon fa fa-check"></i> 已更新至最新版本。
+                                    <i class="icon fa fa-check"></i> {{mess}}
                                 </div>
+
+
                                 <div class="box-body">
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">当前版本</label>
                                         <div class="col-sm-10">
-                                            v0.0.0
+                                        {% if boo %}
+                                            {{version}}
+                                        {% else %}
+                                            {{update.latest_version|safe}}
+                                        {% endif %}
                                         </div>
                                     </div>
                                     <br>
+
+                                     
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">发布时间</label>
                                         <div class="col-sm-10">
-                                            2017-11-09 21:48:36
+                                            {{update.update_time}}
                                         </div>
                                     </div>
+                                    <br>
+
+                                    {% if boo %}
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">最新版本</label>
+                                            <div class="col-sm-10">
+                                                {{update.latest_version}}
+                                            </div>
+                                        </div>
+                                        <br>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">更新提示</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label"></label>
+                                            <div class="col-sm-10">
+                                                {{latest_version.release_note|safe}} 
+                                            </div>
+                                        </div>
+                                    {% endif %}
+
                                 </div>
                                 <div class="box-footer">
                                     <!--<a class="btn btn-primary" data-toggle="modal" data-target="#modal-info" >马上升级</a>-->
-                                    <a class="btn btn-primary" disabled="disabled">无需升级</a>
+                                    {% if boo %}
+                                        <a class="btn btn-primary" class="btn btn-primary" data-toggle="modal" data-target="#modal-info">马上升级</a>
+                                    {% else %}
+                                        <a class="btn btn-primary" disabled="disabled">无需升级</a>
+                                    {% endif %}
                                     <!--升级需要添加 data-toggle="modal" data-target="#modal-info" -->
                                     <a href="https://github.com/printempw/blessing-skin-server/releases" target="_blank" class="btn btn-default pull-right">查看 GitHub Releases</a>
                                 </div>
@@ -388,13 +427,7 @@
                             </div>
                             <div class="box-body">
                                 <div class="box-header">
-                                    1. 修复页面显示乱码
-                                    <br> 2. 修复页面显示乱码
-                                    <br> 3. 修复页面显示乱码
-                                    <br> 4. 修复页面显示乱码
-                                    <br> 5. 修复页面显示乱码
-                                    <br> 6. 修复页面显示乱码
-                                    <br>
+                                        这里什么也没有！
                                 </div>
                             </div>
                         </div>
@@ -411,10 +444,11 @@
                                     <label class="col-sm-2 control-label">更新源</label>
                                     <div class="col-sm-10">
                                         <select class="form-control select2" style="width: 100%;">
-                                            <option selected="selected">官方源</option>
-                                            <option>小狗源</option>
-                                            <option>第三方源</option>
-                                            <option>YUM源</option>
+                                            {% for value in yum %}
+
+                                            <!--<option selected="selected">官方源</option>-->
+                                            <option>{{value.name}}</option>
+                                            {% endfor %}
                                         </select>
                                     </div>
                                 </div>
@@ -435,6 +469,8 @@
             </section>
             <!-- /.content -->
         </div>
+
+
         <!-- /.content-wrapper -->
         <div class="control-sidebar-bg"></div>
         <footer class="main-footer">

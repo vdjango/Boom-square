@@ -22,8 +22,9 @@ def get_Json(url=None, method='GET', code='utf8'):
         url = url  # 'http://shszcraft.com:8080/?format=json'
 
     else:
-        url = 'http://shszcraft.com:8080/?format=json'
+        url = 'http://shszcraft.com:9090/?format=json'
 
+    # print('url', url)
     html = http.request('GET', url)
     return json.loads(html.data.decode('utf8'))
 
@@ -38,11 +39,39 @@ def get_update(json):
     return list(update)
 
 
-def update_main():
-    json = get_Json(url='http://shszcraft.com:8080/')
-    update = get_update(json)
-    pass
+def init(version='0.0.0', keys=0):
+    json = get_Json()
+    yum = get_update(json)
 
+    try:
+        dic = yum[keys]
+    except Exception as e:
+        raise e
 
-update_main()
-# print(value, ..., sep, end, file, flush)
+    update = get_Json(dic['address'])
+    # print(update)
+
+    _version = update["latest_version"]
+
+    MAJOR_update = str(_version).split('.')[0]
+    MINOR_update = str(_version).split('.')[1]
+    PATCH_update = str(_version).split('.')[2]
+
+    MAJOR_version = str(version).split('.')[0]
+    MINOR_version = str(version).split('.')[1]
+    PATCH_version = str(version).split('.')[2]
+
+    if MAJOR_version < MAJOR_update:
+        return True, update, yum
+
+    if MINOR_version < MINOR_update:
+        return True, update, yum
+
+    if PATCH_version < PATCH_update:
+        return True, update, yum
+
+    return False, update, yum
+    # latest_version
+
+    for x in list(range(10)):
+        lis = init()
