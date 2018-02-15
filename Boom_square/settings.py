@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'account.apps.AccountConfig',
     'app.apps.AppConfig',
     'user.apps.UserConfig',
+    'update.apps.UpdateConfig'
+
 
 
 

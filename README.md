@@ -39,7 +39,8 @@ BoomSquare 对您的服务器有一定的要求。
 * 安装如下 Python 扩展：
 
 	* pip  >= 8.0
-    * Django >= 1.9.0
+    * urllib3
+    * Django <= 1.10 [1.9.2+]
     * Markdown
     * setuptools
     * uwsgi

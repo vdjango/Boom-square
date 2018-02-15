@@ -7,6 +7,17 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>留言板 | 崩坏广场</title>
         <!-- Tell the browser to be responsive to screen width -->
+ 
+  <link rel="stylesheet" href="{%static 'bootstrap-daterangepicker/daterangepicker.css'%}">
+  <link rel="stylesheet" href="{%static 'bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css'%}">
+  <link rel="stylesheet" href="{%static 'iCheck/all.css'%}">
+  <link rel="stylesheet" href="{%static 'bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css'%}">
+  <link rel="stylesheet" href="{%static 'timepicker/bootstrap-timepicker.min.css'%} ">
+ 
+
+
+
+
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <!-- Bootstrap 3.3.7 -->
         <link rel="stylesheet" href="{%static 'bootstrap/dist/css/bootstrap.min.css'%}">
@@ -336,11 +347,11 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                我的留言板
-                <small>崩坏中心</small>
+                检查更新
+                <small>Update</small>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> 我的留言板</a></li>
+                <li><a href="#"><i class="fa fa-dashboard"></i> 检查更新</a></li>
                 <li><a href="#"> 当前位置</a></li>
                 <!--
                 <li class="active">Timeline</li>
@@ -349,243 +360,144 @@
         </section>
 
 
+
+
     <!-- Main content -->
     <section class="content">
         <!-- row -->
-        <div class="row ">
-            <div class="col-md-12 ">
-                <!-- The time line -->
 
-                <ul class="timeline">
-
-  
-     
- 
- 
-
-                    <!-- /.timeline-label -->
-                    <!--
-                        邮件ico
-                    <i class="fa fa-envelope bg-blue"></i>
-
-                        联系人ico
-                    <i class="fa fa-user bg-aqua"></i>
-            
-                        消息ico
-                    <i class="fa fa-comments bg-yellow"></i>
-                    -->
-
-                    <!-- timeline time label -->
-
-                    
-                    <!-- timeline item -->
-
-                <!--
-                        <li class="time-label ">
-                            <span class="bg-red">
-                                {{item.time_now}} 
-                            </span>
-                        </li>
-
-                    <li>
-                        <i class="fa fa-comments bg-yellow"></i>
-
-                        <div class="timeline-item">
-                            <span class="time"><i class="fa fa-clock-o"></i> 12:05</span>
-                            <span class="time"><i class="fa fa-user"></i><a href="">Job</a> </span>
-
-                            <h3 class="timeline-header"> <a href="#">{{line.title}}</a></h3>
-
-                            <div class="timeline-body">
-                                {{line|safe}}
-                            </div>
-                            
-                            <div class="timeline-body">
-                                <img src="http://placehold.it/150x100" alt="..." class="margin">
-                                <img src="http://placehold.it/150x100" alt="..." class="margin">
-                                <img src="http://placehold.it/150x100" alt="..." class="margin">
-                                <img src="http://placehold.it/150x100" alt="..." class="margin">
-                            </div>
-
-                            <div class="timeline-body">
-                                <div class="embed-responsive embed-responsive-16by9">
-                                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/tMWkeBIohBs"
-                                        frameborder="0" allowfullscreen></iframe>
+        <div class="row">
+            <!-- general form elements -->
+            <div class="col-md-6">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <i class="fa fa-bullhorn"></i>
+                        <h3 class="box-title">更新信息</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="callout callout-info">
+                            <i class="icon fa fa-check"></i> 已更新至最新版本。
+                        </div>
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">当前版本</label>
+                                <div class="col-sm-10">
+                                v0.0.0
                                 </div>
                             </div>
-
-                            <div class="timeline-footer">
-                                <a class="btn btn-primary btn-xs">打开</a>
-                                <a class="btn btn-danger btn-xs">删除</a>
-                            </div>
-                            
                             <br>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">发布时间</label>
+                                <div class="col-sm-10">
+                                2017-11-09 21:48:36
+                                </div>
+                            </div> 
                         </div>
-                    </li>
-                -->
 
- 
+                        <div class="box-footer">
+                            <!--<a class="btn btn-primary" data-toggle="modal" data-target="#modal-info" >马上升级</a>-->
+                            <a class="btn btn-primary" disabled="disabled">无需升级</a>
+                            <!--升级需要添加 data-toggle="modal" data-target="#modal-info" -->
+                            <a href="https://github.com/printempw/blessing-skin-server/releases" target="_blank" class="btn btn-default pull-right">查看 GitHub Releases</a>
+                        </div>
+                    </div>
 
-    
- 
-
-
-
-                    {% for keys, value in value_dict.items %}
-                        <li class="time-label ">
-                            {% if value|key:"time"|time_get %}
-                            <span class="bg-green">
-                                {{value|key:"time"|time_key}} 
-                            </span>
-                            {% else %}
-                            <span class="bg-red">
-                                {{value|key:"time"|time_key:":0"}} 
-                            </span>
-                            {% endif %}
-                        </li>
-                        
-                        {% for v in value|key:"contents_dicts" %}
-                            
-                        <li>
-                            <i class="fa fa-comments bg-yellow"></i>
-                            <div class="panel timeline-item">
-                            
-                                <span class="time"><i class="fa fa-clock-o"></i> 
-                                    {{ v|key:"time_now"|safe|time_key:":1" }} 
-                                </span>
-                                <span class="time"><i class="fa fa-user"></i>
-                                    <a href="">
-                                        {{ v|key:"username"|safe }} 
-                                    </a> 
-                                </span>
-                                <span class="time"><i class="fa fa-clock-o"></i>编辑</span>
-                                <h3 class="timeline-header"> <a href="#">
-                                    <a data-toggle="collapse" data-parent="#accordion" href='#{{v|key:"id"|safe}}'>{{ v|key:"title" }}</a></a>
-                                </h3>
-                                
-                                {% if value|key:"time"|time_get %}
-                                    <div id='{{v|key:"id"|safe}}' class="panel-collapse collapse in">
-                                        <div class="box-body">
-                                            <div class="timeline-body">
-                                               {{ v|key:"content"|safe }} 
-                                            </div>
-                                            <br>
-                                            <div class="timeline-footer">
-                                                <a href='#{{v|key:"id"}}' data-toggle="collapse" data-parent="#accordion" class="btn btn-primary btn-xs">收起</a>
-                                                <a class="btn btn-danger btn-xs">删除</a>
-                                            </div>
+                    <div class="modal fade" id="modal-info">
+                         <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                     <h4 class="modal-title">正在升级</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p>请留在当前页面等待升级完成&hellip;</p>
+                                    <div class="progress active">
+                                        <div class="progress-bar progress-bar-primary progress-bar-striped" 
+                                                role="progressbar" aria-valuenow="40" aria-valuemin="0" 
+                                                aria-valuemax="100" style="width: 40%">
+                                            <span class="sr-only">40% Complete</span>
                                         </div>
                                     </div>
-                                {% else %}
-                                    <div id='{{v|key:"id"|safe}}' class="panel-collapse collapse">
-                                        <div class="box-body">
-                                            <div class="timeline-body">
-                                               {{ v|key:"content"|safe }} 
-                                            </div>
-                                            <br>
-                                            <div class="timeline-footer">
-                                                <a href='#{{v|key:"id"|safe}}' data-toggle="collapse" data-parent="#accordion" class="btn btn-primary btn-xs">收起</a>
-                                                <a class="btn btn-danger btn-xs">删除</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                {% endif %}
-                                
+
+
+
+                                </div>
+                                <div class="modal-footer">
+                                    <!--<button type="button" class="btn btn-default pull-left" data-dismiss="modal">收起</button>
+                                    --><button type="button" class="btn btn-primary" data-dismiss="modal">收起</button>
+                                </div>
                             </div>
-                        </li>
-                        {% endfor %}
-                        
-                    {% endfor %}
-
-      
-
-
-
-
-
-
-                    <li>
-                        <i class="fa fa-clock-o bg-gray"></i>
-                    </li>
-
-
-                </ul>
-            </div>
-            <!-- /.col -->
-            <div class="row">
-                <a class="btn btn-app btn-default bg-yellow" data-toggle="modal" data-target="#modal-default" 
-                    style="position: fixed; bottom: 45px; z-index: 100; right:2%;">
-                    <i class="fa fa-edit"></i> <span>留言</span>
-                </a>
-            </div>
-            <div class="modal fade" id="modal-default">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            <h4 class="modal-title">发表新的留言</h4>
                         </div>
-                        <div class="modal-body">
-   
-
-
-        <form id="login-form" action="/app/create/" method="POST">
-
-
-            <div class="box-body pad">
-
-
-<div class="form-group has-feedback">
-    <input type="text" class="form-control" placeholder="留言标题" name="title" value="{{title}}">
-</div>
-
-                <div class="form-group">
-                    <label>分类</label>
-                    <select class="form-control select2" style="width: 100%;">
-                        <option selected="selected">Linux 运维</option>
-                        <option>Python 教程</option>
-                        <option>Django 框架</option>
-                    </select>
+                    </div>
                 </div>
+            </div>
 
-
-                <div class=" form-group">
-                    <label>标签</label>                    
-                    <select class="form-control select2 bg-green" multiple="multiple" data-placeholder="Select a State"
-                            style="width: 100%;">
-                        <option>WIKI</option>
-                        <option>Linux</option>
-                        <option>Django</option>
-                        <option>WEB</option>
-                    </select>
+            <div class="col-md-6">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <i class="fa fa-lightbulb-o"></i>
+                        <h3 class="box-title">更新提示</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="box-header">  
+                            1. 修复页面显示乱码 <br> 2. 修复页面显示乱码 <br> 3. 修复页面显示乱码 <br> 4. 修复页面显示乱码 <br> 5. 修复页面显示乱码 <br> 6. 修复页面显示乱码 <br>
+                        </div>
+                    </div>
                 </div>
-
-                {% csrf_token %}
-                <textarea id="editor1" name="content" rows="10" cols="80">
-                        您可以在此处留言，写代码等！鼠标点击空白处可返回桌面，再次打开可继续编辑！
-                </textarea>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">留言</button>
-                </div>
-
-                </form>
             </div>
 
 
+            <div class="col-md-6">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <i class="fa fa-wrench"></i>
+                        <h3 class="box-title">更新设置</h3>
+                    </div>
+                    <!-- /.box-header -->
 
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">更新源</label>
+                            <div class="col-sm-10">
+                                <select class="form-control select2" style="width: 100%;">
+                                    <option selected="selected">官方源</option>
+                                    <option>小狗源</option>
+                                    <option>第三方源</option>
+                                    <option>YUM源</option>
+                                </select>
+                            </div>
+                        </div>
+                        <br><br>
+ 
 
-
-        </div>
-                        
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <label>
+                                    <input type="checkbox" class="minimal" checked>
+                                    检查更新
+                                </label>
+                            </div>
+                        </div>
+                        <button type='submit' name='submit_update' class='btn btn-primary '>提交</button>
                     </div>
                 </div>
             </div>
 
         </div>
-        <!-- /.row -->
 
+
+        
+
+ 
+ 
+
+
+
+ 
+
+ 
  
 
 
@@ -639,20 +551,6 @@
 <script src="{%static 'iCheck/icheck.min.js'%}"></script>
 <!-- FastClick -->
 
-<script >hljs.initHighlightingOnLoad();</script>  
-
-
-<!-- Page script -->
-<script>
-  $(function () {
-    // Replace the <textarea id="editor1"> with a CKEditor
-    // instance, using default configuration.
-    CKEDITOR.replace('editor1')
-    //bootstrap WYSIHTML5 - text editor
-    
-  })
-</script>
-
 <script>
   $(function () {
     //Initialize Select2 Elements
@@ -667,6 +565,8 @@
 
     //Date range picker
     $('#reservation').daterangepicker()
+
+
     //Date range picker with time picker
     $('#reservationtime').daterangepicker({ timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY h:mm A' })
     //Date range as a button

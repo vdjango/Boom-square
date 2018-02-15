@@ -56,7 +56,7 @@ class App_Blog(models.Model):
     content = models.TextField()
     time_add = models.DateTimeField(auto_now=False, auto_now_add=True)  # 创建
     time_now = models.DateTimeField(auto_now=True, auto_now_add=False)  # 更新
-    username = models.ForeignKey(User)
+    username = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
         ordering = ['-time_now']

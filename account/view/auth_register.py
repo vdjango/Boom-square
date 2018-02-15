@@ -69,7 +69,7 @@ def auth_register_access(request, email, username, password, passd):
 
     u = authenticate(email=email, username=username, password=password)
     if u:
-        return False, '用户名和密码不正确。'
+        return False, '用户已注册'
 
     # the password verified for the user
     from django.contrib.auth.models import User

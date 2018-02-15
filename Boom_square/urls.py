@@ -30,5 +30,6 @@ urlpatterns = [
     url(r'^user/', include('user.urls'), name='user'),
     url(r'^app/', include('app.urls'), name='app'),
     url(r'^admin/', admin.site.urls),
+    url(r'^update/', include('update.urls')),
     url(r'^$', index),
 ]
