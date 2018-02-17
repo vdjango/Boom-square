@@ -35,6 +35,10 @@
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini outer-container">
+
+ 
+
+
     <div class="wrapper ">
         <header class="main-header">
             <!-- Logo -->
@@ -321,6 +325,14 @@
             </section>
             <!-- Main content -->
             <section class="content">
+
+
+
+
+
+
+
+
                 <div class="row">
                     <!-- general form elements -->
                     <div class="col-md-6">
@@ -384,34 +396,33 @@
                                 <div class="box-footer">
                                     <!--<a class="btn btn-primary" data-toggle="modal" data-target="#modal-info" >马上升级</a>-->
                                     {% if boo %}
-                                        <a class="btn btn-primary" class="btn btn-primary" data-toggle="modal" data-target="#modal-info">马上升级</a>
+                                        <a class="btn btn-primary" class="btn btn-primary" data-toggle="modal" data-target="#modal-info" onclick="version()">马上升级</a>
                                     {% else %}
                                         <a class="btn btn-primary" disabled="disabled">无需升级</a>
                                     {% endif %}
                                     <!--升级需要添加 data-toggle="modal" data-target="#modal-info" -->
-                                    <a href="https://github.com/printempw/blessing-skin-server/releases" target="_blank" class="btn btn-default pull-right">查看 GitHub Releases</a>
+                                    <a href="https://github.com/ShszCraft/Boom-square" target="_blank" class="btn btn-default pull-right">查看 GitHub Releases</a>
                                 </div>
                             </div>
                             <div class="modal fade" id="modal-info">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                            <h4 class="modal-title">正在升级</h4>
-                                        </div>
-                                        <div class="modal-body">
-                                            <p>请留在当前页面等待升级完成&hellip;</p>
-                                            <div class="progress active">
-                                                <div class="progress-bar progress-bar-primary progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-                                                    <span class="sr-only">40% Complete</span>
-                                                </div>
+
+                                            <div class="progress progress-striped active">
+                                                <h4 class="modal-title">正在升级</h4>
                                             </div>
+                                            <div class="modal-body">
+                                                <p>请留在当前页面等待升级完成&hellip;</p>
+                                                <div class="progress progress-striped active">
+                                                    <div id="prog" class="progress-bar" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style="width:0%;">
+                                                        <span id="proglabel">正在启动，请稍后......</span>
+                                                    </div>
+                                                </div>   
+                                            </div>    
                                         </div>
+
                                         <div class="modal-footer">
-                                            <!--<button type="button" class="btn btn-default pull-left" data-dismiss="modal">收起</button>
-                                                -->
                                             <button type="button" class="btn btn-primary" data-dismiss="modal">收起</button>
                                         </div>
                                     </div>
@@ -466,6 +477,15 @@
                         </div>
                     </div>
                 </div>
+
+
+<div id="progressbar"></div>
+
+<button type="button" class="btn btn-default" onclick="submit_query()">提交</button>
+
+ 
+
+
             </section>
             <!-- /.content -->
         </div>
@@ -506,6 +526,30 @@
         <!-- iCheck 1.0.1 -->
         <script src="{%static 'iCheck/icheck.min.js'%}"></script>
         <!-- FastClick -->
+
+
+<script type="text/javascript">
+//$(document).ready(
+    function version() {
+    var value = 0
+    var time = 600;
+
+    var id = setInterval(frame, time);
+    function frame() {
+        $.get("/update/auth_version_get/", function(data) {
+            $("#prog").css("width", data + "%").text(data + "%");
+            value = data
+        });
+        if (value == 100) {
+          clearInterval(id);
+        }
+    }
+}
+//);
+</script>
+
+
+
         <script>
         $(function() {
             //Initialize Select2 Elements

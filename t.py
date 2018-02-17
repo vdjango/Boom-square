@@ -1,54 +1,60 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# @Date    : 2018-02-12 14:28:43
+# @Date    : 2018-02-16 14:26:26
 # @Author  : Job (Job@6box.net)
 # @Link    : http://www.6box.net
 # @Version : $Id$
-from datetime import datetime
+
+line = 0
 
 
-def DateTimes(date):
-    '''
-    datetime_from_db = '2015-10-26 00:00:00'
-    '''
-    datetime_from = datetime.now()
+class ProgressBar(object):
+    def __init__(self, count=0.0,  total=100.0, chunk_size=1.0):
+        super(ProgressBar, self).__init__()
+        self.total = total
+        self.count = count
+        self.chunk_size = chunk_size
 
-    datetime_of = datetime.strptime(
-        date, "%Y-%m-%d %H:%M:%S")
+    def __get_info(self):
+        # self.total/self.chunk_size = 下载包总大小
+        totcgunk = self.total / self.chunk_size  # 下载包总大小
+        couchunk = self.count / self.chunk_size  # 当前下载了多少
+        BFBI = (float(couchunk) / float(totcgunk) * 100)
+        return str(BFBI).split('.')[0]
 
-    data_year = str(datetime_of).split(" ")[0].split("-")[0]  # '年'
-    data_month = str(datetime_of).split(" ")[0].split("-")[1]  # '月'
-    data_day = str(datetime_of).split(" ")[0].split("-")[2]  # '日'
-    data_time = str(datetime_of).split(" ")[1].split(":")[0]  # '时'
-    data_branch = str(datetime_of).split(" ")[1].split(":")[1]  # '分'
-    data_second = str(datetime_of).split(" ")[1].split(":")[2]  # '秒'
-
-    data_for_year = str(datetime_from).split(" ")[0].split("-")[0]  # '年'
-    data_for_month = str(datetime_from).split(" ")[0].split("-")[1]  # '月'
-    data_for_day = str(datetime_from).split(" ")[0].split("-")[2]  # '日'
-    data_for_time = str(datetime_from).split(
-        " ")[1].split(".")[0].split(":")[0]  # '时'
-    data_for_branch = str(datetime_from).split(
-        " ")[1].split(".")[0].split(":")[1]  # '分'
-    data_for_second = str(datetime_from).split(
-        " ")[1].split(".")[0].split(":")[2]  # '秒'
-
-    date_of = data_year + data_month + data_day
-    date_for = data_for_year + data_for_month + data_for_day
-
-    date_of_t = data_time + data_branch + data_second
-    date_for_t = data_for_time + data_for_branch + data_for_second
-
-    number = int(date_for) - int(date_of)
-    # number_time = int(date_for_t) - int(date_of_t)
-
-    # 240000
-    if number < 1 and number > -1:
-        return True
-    else:
-        return False
-
-    # 20180212
+    def refresh(self, count=1, status=None):
+        self.count += count
+        return self.__get_info()
 
 
-DateTimes('2018-02-11 14:30:00')
+def update_get():
+    import requests
+    from contextlib import closing
+
+    url = "https://github.com/ShszCraft/Boom-square/archive/v0.0.0.zip"
+    wget = requests.get(url, stream=True)
+
+    chunk_size = 1024
+
+    global line
+
+    with closing(wget) as response:
+
+        content_size = int(response.headers['content-length'])
+        """
+        需要根据 response.status_code 的不同添加不同的异常处理
+        print('content_size', content_size, response.status_code,)
+        """
+        progress = ProgressBar(total=content_size, chunk_size=chunk_size)
+
+        with open('./file.zip', "wb") as file:
+            for data in response.iter_content(chunk_size=chunk_size):
+                file.write(data)
+                number = progress.refresh(count=len(data))
+                if number != line:
+                    line = number
+
+        print('下载完成', )
+
+
+update_get()

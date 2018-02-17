@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>...</title>
+    <!--在IE浏览器中运行最新的渲染模式-->
+    <meta http-equiv="X-UA-Compatible" content="IE-Edge">
+    <!--初始化移动浏览器显示-->
+    <meta name="viewport" content="width-device-width,inital-scale=1">
+    <link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+
+
+      <script src="http://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+	var value = 0
+    var time = 600;
+
+    var id = setInterval(frame, time);
+  	function frame() {
+  		$.get("/update/process/", function(data) {
+            $("#prog").css("width", data + "%").text(data + "%");
+            value = data
+        });
+	    if (value == 100) {
+	      clearInterval(id);
+	    }
+	}
+});
+</script>
+
+
+</head>
+<body>
+    <div class="progress progress-striped active">
+        <div id="prog" class="progress-bar" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style="width:0%;">
+            <span id="proglabel">正在启动，请稍后......</span>
+        </div>
+    </div>            
+</body>
+</html>

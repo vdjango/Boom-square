@@ -10,5 +10,10 @@ from update import views
 
 urlpatterns = [
     url(r'^$', views.update, name='user'),
+    url(r'^auth_version_get/$', views.auth_version_get,
+        name='processss'),  # 处理数据的url, 当前页面的地址
+    url(r'^auth_version/$', views.auth_version,
+        name='process'),  # 处理数据的url, 当前页面的地址
+
 
 ]
