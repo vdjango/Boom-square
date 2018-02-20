@@ -22,13 +22,13 @@ from django.http import HttpResponseRedirect
 
 @login_required(login_url='/auth/login/')
 def index(request):
-    return HttpResponseRedirect('/user/')
+    return HttpResponseRedirect('/home/')
 
 
 urlpatterns = [
     url(r'^auth/', include('account.urls')),
     url(r'^user/', include('user.urls'), name='user'),
-    url(r'^app/', include('app.urls'), name='app'),
+    url(r'^home/', include('app.urls'), name='app'),
     url(r'^admin/', admin.site.urls),
     url(r'^update/', include('update.urls')),
     url(r'^$', index),
