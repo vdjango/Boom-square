@@ -5,6 +5,8 @@ from update.utli.update import init
 from update.utli.wget import update_version_wget, update_version_get
 from update.view.update_view import update_view
 import threading
+from django.contrib.auth.decorators import login_required
+
 
 '''
 是否进行更新任务
@@ -13,6 +15,7 @@ auth_update = True
 number = 0
 
 
+@login_required(login_url='/auth/login/')
 def version_get(request):
     '''
     获取更新下载进度
@@ -31,6 +34,7 @@ def version_get(request):
         return JsonResponse(number, safe=False)
 
 
+@login_required(login_url='/auth/login/')
 def version_update(request):
     '''
     开启线程进行更新
@@ -46,6 +50,7 @@ def version_update(request):
         return HttpResponse('no')
 
 
+@login_required(login_url='/auth/login/')
 def update(request):
     if request.method == 'GET':
         return update_view(request)
@@ -54,7 +59,10 @@ def update(request):
 class PrintThread(threading.Thread):
     def run(self):
         update_version_wget(
-            'https://github.com/ShszCraft/Boom-square/archive/v0.0.0.zip')
+            'https://github.com/ShszCraft/Boom-square/archive/v0.1.0.zip')
+
         from update.utli.zip import update_zip
+
+        global auth_update
         update_zip()
         auth_update = True
