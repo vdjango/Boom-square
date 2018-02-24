@@ -1,18 +1,21 @@
-from django.shortcuts import render
-from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
-from update.utli.update import init
+from django.http import HttpResponse, JsonResponse
 # Create your views here.
-from update.utli.wget import update_version_wget, update_version_get
+from update.utli.wget import update_wget_main, update_version_get
 from update.view.update_view import update_view
 import threading
 from django.contrib.auth.decorators import login_required
-
+from update.utli.zip import update_main
 
 '''
 是否进行更新任务
 '''
+
+version = '0.0.0'  # 当前版本号
+latest_version = '0.0.0'  # 最新版本
+release_url = ''
 auth_update = True
 number = 0
+err = ''
 
 
 @login_required(login_url='/auth/login/')
@@ -53,16 +56,45 @@ def version_update(request):
 @login_required(login_url='/auth/login/')
 def update(request):
     if request.method == 'GET':
-        return update_view(request)
+        global latest_version
+        global release_url
+        rend, latest_version, release_url = update_view(request, version)
+        latest_version = latest_version
+        release_url = release_url
+        print('latest_version', latest_version, 'release_url', release_url)
+        return rend
 
 
 class PrintThread(threading.Thread):
     def run(self):
-        update_version_wget(
-            'https://github.com/ShszCraft/Boom-square/archive/v0.1.0.zip')
-
-        from update.utli.zip import update_zip
-
         global auth_update
-        update_zip()
+        global err
+
+        get, err = update_wget_main(release_url, 'file.zip')
+
+        if get == False:
+            print('下载失败', err)
+            err = '下载失败' + str(err)
+            return err
+            pass
+
+        unzip, rm, move = update_main('file.zip', latest_version)
+        if unzip == False:
+            print('解压失败', unzip)
+            err = '解压失败' + str(unzip)
+            return unzip
+            pass
+
+        if rm == False:
+            print('清理备份失败', rm)
+            err = '清理备份失败' + str(rm)
+            return rm
+            pass
+
+        if move == False:
+            print('更新文件失败', move)
+            err = '更新文件失败' + str(move)
+            return rm
+            pass
+
         auth_update = True

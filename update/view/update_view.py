@@ -9,12 +9,13 @@ from django.shortcuts import render
 from update.utli.update import init
 
 
-def update_view(request):
+def update_view(request, Version):
     mess = ''
-    boo, update_, yum = init('0.1.-1')
+    boo, update_, yum = init(Version)
     latest_version = update_['latest_version']
-    up = update_['releases']
-    latest_version = up[latest_version]
+    releases = update_['releases']
+    VersionDict = releases[latest_version]
+    url = VersionDict['release_url']
 
     if boo:
         mess = '发现可用新版本。'
@@ -26,7 +27,8 @@ def update_view(request):
         "mess": mess,
         "yum": yum,
         "update": update_,
-        "latest_version": latest_version
+        "Version": Version,
+        "latest_version": VersionDict
     }
 
-    return render(request, 'home/update.html', dic)
+    return render(request, 'home/update.html', dic), latest_version, url

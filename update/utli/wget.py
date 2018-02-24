@@ -5,6 +5,11 @@
 # @Link    : http://www.6box.net
 # @Version : $Id$
 
+import requests
+from contextlib import closing
+from requests import exceptions
+
+
 line = 99
 off = True
 
@@ -30,37 +35,57 @@ class ProgressBar(object):
         return self.__get_info()
 
 
-def update_version_wget(url):
-    import requests
-    from contextlib import closing
+def update_wget_main(url, filePath='file.zip'):
+    NETWORK_STATUS = True
+    try:
+        session = requests.Session()
+        session.headers = {
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
+        }
+        session.get('https://www.baidu.com/', timeout=2.0)
+    except exceptions.ConnectTimeout:
+        NETWORK_STATUS = False
 
-    chunk_size = 1024
+    if NETWORK_STATUS == False:
+        return False, '网络连接超时或网络不可达'
 
+    return update_version_wget(url, filePath)
+
+
+def update_version_wget(url, filePath='file.zip'):
     global line
     global off
 
+    chunk_size = 1024
     line = 0
 
-    with closing(requests.get(url, stream=True)) as response:
+    session = requests.Session()
+    session.headers = {
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
+    }
+    wget = session.get(url, stream=True)
 
+    with closing(wget) as response:
         if response.status_code == 200:
-
             try:
                 content_size = int(response.headers['content-length'])
-            except Exception as e:
-                print('Exception', 'Error headers')
-                if off:
-                    update_version_wget(url)
-                    off = False
+            except exceptions.Timeout as e:
+                print('Timeout', '请求超时')
+                return False, 'Timeout 请求超时'
+            except exceptions.ConnectTimeout as e:
+                print('ConnectTimeout', '网络连接超时或网络不可达')
+                return False, 'ConnectTimeout 网络连接超时或网络不可达'
 
-            progress = ProgressBar(total=content_size, chunk_size=chunk_size)
+    progress = ProgressBar(total=content_size, chunk_size=chunk_size)
 
-            with open('./file.zip', "wb") as file:
-                for data in response.iter_content(chunk_size=chunk_size):
-                    file.write(data)
-                    number = progress.refresh(count=len(data))
-                    if number != line:
-                        line = number
+    with open(filePath, "wb") as file:
+        for data in response.iter_content(chunk_size=chunk_size):
+            file.write(data)
+            number = progress.refresh(count=len(data))
+            if number != line:
+                line = number
+
+    return True, '下载完成'
 
 
 def update_version_get():

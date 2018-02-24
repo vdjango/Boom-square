@@ -3,20 +3,47 @@ import os
 import shutil
 
 
-version = '0.1.0'
-name = 'Boom-square-' + version
 error_list = []
 
 
-def update_zip():
+def update_main(filename, version):
+    '''
+    return '解压', '清理备份', '移动解压文件更新'
+    '''
 
-    filename = 'file.zip'
-    fz = zipfile.ZipFile(filename, 'r')
+    name = 'Boom-square-' + version
 
-    for file in fz.namelist():
-        fz.extract(file, './')
+    try:
+        update_unzip(filename)
+    except Exception as e:
+        return False, None, None
 
-    update_file()
+    try:
+        rmmove()
+    except Exception as e:
+        return True, False, None
+
+    try:
+        update_movefile(name)
+    except Exception as e:
+        return True, True, False
+
+    return True, True, True
+
+
+def update_unzip(filename):
+    try:
+        fz = zipfile.ZipFile(filename, 'r')
+        for file in fz.namelist():
+            fz.extract(file, './')
+
+        if os.path.exists(filename):
+            os.remove(filename)
+
+        return True
+
+    except Exception as e:
+        return False
 
 
 def copyfile2(FilePath, dstAddPath):
@@ -116,9 +143,8 @@ def rmmove(srcPath='./', dstPath='update-version'):
     # os.rmdir(srcPath)
 
 
-def update_file(srcPath='update-version/' + name, dstPath='./'):
-
-    rmmove(dstPath)
+def update_movefile(name, srcPath='update-version/', dstPath='./'):
+    srcPath = 'update-version/' + name
 
     for item in os.listdir(srcPath):
         FilePath = os.path.join(srcPath, item)

@@ -38,7 +38,6 @@ from app.utli import datetimenow
 class log():
     def d(l, arg):
         print('Log.d:', l, arg)
-        pass
 
 
 @login_required(login_url='/auth/login/')
@@ -64,26 +63,38 @@ def user_home(request):
         __, number = datetimenow.DateTimes(str(data).split('.')[0])
 
         if int(Inits) == int(number):
-            value.append({"title": i.title, "content": mark, "username": str(i.username),
-                          "time_now": str(data).split('.')[0], "id": ids})
+            value.append({
+                "title": i.title,
+                "content": mark,
+                "username": str(i.username),
+                "time_now": str(data).split('.')[0],
+                "id": ids}
+            )
+
             time_date = str(data).split('.')[0]
             log.d('value.append', 'Add')
 
         else:
-            log.d('value_dict', 'Add')
+            if time_date != '2018-01-01 00:00:00' and value:
+                log.d('value_dict', 'Add')
+                value_dict[str(Inits)] = {
+                    'time': time_date,
+                    'contents_dicts': value
+                }
+
+            value = []
+            Inits = int(number)
+
+        log.d('len(value)', str(len(value)) + ' ,' + str(number))
+
+    if len(value) > 1:
+        if time_date != '2018-01-01 00:00:00' and value:
+            log.d('len(value)', len(value))
             value_dict[str(Inits)] = {
                 'time': time_date,
                 'contents_dicts': value
             }
-            value = []
-            Inits = int(number)
 
-    if len(value) > 1:
-        log.d('len(value)', len(value))
-        value_dict[str(Inits)] = {
-            'time': time_date,
-            'contents_dicts': value
-        }
         value = []
         Inits = int(number)
 
@@ -97,3 +108,24 @@ def user_home(request):
     # return HttpResponse(json.dumps(content_list1))
 
     return render(request, 'home/home.html', content)
+
+
+@login_required(login_url='/auth/login/')
+def create(request):
+    if request.method == 'POST':
+        title = request.POST.get('title', '')
+        content = request.POST.get('content', '')
+        username = request.user.username
+
+        if title and content:
+            models.App_SAVE_Text(username, title, content)
+
+            return HttpResponseRedirect('/')
+        else:
+            content = {
+                'title': title,
+                'content': content,
+                'err': u'不能为空'
+            }
+
+            return render(request, 'create.html', content)
