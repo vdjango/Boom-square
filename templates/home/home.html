@@ -61,11 +61,6 @@
                         <ul class="nav navbar-nav">
                             <!-- Messages: style can be found in dropdown.less-->
 
-
-
-                         
-
-
                             <!-- User Account: style can be found in dropdown.less -->
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -86,13 +81,13 @@
                                     <li class="user-body">
                                         <div class="row">
                                             <div class="col-xs-4 text-center">
-                                                <a href="/admin/">管理后台</a>
+                                                <a href="">管理后台</a>
                                             </div>
                                             <div class="col-xs-4 text-center">
-                                                <a href="/user/info/">个人信息</a>
+                                                <a href="">个人信息</a>
                                             </div>
                                             <div class="col-xs-4 text-center">
-                                                <a href="/update/">检查更新</a>
+                                                <a href="{% url 'update'%}">检查更新</a>
                                             </div>
                                         </div>
                                         <!-- /.row -->
@@ -100,10 +95,10 @@
                                     <!-- Menu Footer-->
                                     <li class="user-footer">
                                         <div class="pull-left">
-                                            <a href="/user/" class="btn btn-default btn-flat">崩坏中心</a>
+                                            <a href="{% url 'index'%}" class="btn btn-default btn-flat">崩坏中心</a>
                                         </div>
                                         <div class="pull-right">
-                                            <a href="/auth/logout/" class="btn btn-default btn-flat">登出</a>
+                                            <a href="{% url 'logout'%}" class="btn btn-default btn-flat">登出</a>
                                         </div>
                                     </li>
                                 </ul>
@@ -133,6 +128,8 @@
                     <a href="#"><i class="fa fa-circle text-success"></i> 
                         {% if admin %}
                             <span>超级管理员</span>         
+                        {% elif admin == None %}
+                            <span>游客</span>
                         {% else %}
                             <span>用户</span>
                         {% endif %}
@@ -154,100 +151,29 @@
         <ul class="sidebar-menu" data-widget="tree">
             <li class="header">我的仪表盘</li>
 
-                <li>
-                    <a href="#">
-                        <i class="fa fa-dashboard"></i>
-                        <span>仪表盘</span>
-                        <span class="pull-right-container">
-                            <small class="label pull-right bg-red">New</small>
-                        </span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
+                
+                <li class="active">
+                    <a href="{% url 'index'%}">
                         <i class="fa fa-dashboard"></i>
                         <span>崩坏广场</span>
                         <span class="pull-right-container">
-                            <small class="label pull-right bg-red">New</small>
+                            <span class="label label-primary pull-right">{{len_blog}}</span>
                         </span>
                     </a>
-                </li>
-
-                <li  class="active">
-                    <a href="#">
-                        <i class="fa fa-commenting"></i>
-                        <span>我的留言板</span>
-                        <span class="pull-right-container">
-                            <span class="label label-primary pull-right">4</span>
-                        </span>
-                    </a>
-                </li>
-
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-envelope"></i> <span>我的邮件</span>
-                        <span class="pull-right-container">
-                            <i class="fa fa-angle-left pull-right"></i>
-                            <small class="label pull-right bg-red">New</small>
-                        </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li>
-                            <a href="../mailbox/compose.html">
-                                <i class="fa fa-paint-brush"></i><span>新邮件</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="../mailbox/mailbox.html">
-                                <i class="fa fa-envelope"></i><span>收件箱</span>
-                                <span class="pull-right-container">
-                                    <small class="label pull-right bg-green">5</small>
-                                </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="../mailbox/mailbox.html">
-                                <i class="fa fa-gear"></i><span>设置</span>
-                                <span class="pull-right-container">
-                                    <small class="label pull-right bg-red">5</small>
-                                </span>
-                            </a>
-                        </li>
-
-
-                    </ul>
                 </li>
 
                 <li>
                     <a href="#">
-                        <i class="fa fa-code"></i>
-                        <span>我的WIKI</span>
-                        <span class="pull-right-container">
-                            <span class="label label-primary pull-right">4</span>
-                        </span>
+                        <i class="fa fa-commenting"></i>
+                        <span>我的留言板</span>
                     </a>
                 </li>
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-user"></i>
-                        <span>个人信息</span>
-                        <span class="pull-right-container">
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="../examples/profile.html"><i class="fa fa-circle-o"></i> 个人信息</a></li>
-                        <li><a href="../examples/login.html"><i class="fa fa-circle-o"></i> 账号密码</a></li>
-                        <li><a href="../examples/register.html"><i class="fa fa-circle-o"></i> 注销账号</a></li>
-                    </ul>
-                </li>
 
-
-
+ 
+                {% if admin %}
                 <li class="header">管理员</li>
                 <li><a href="#"><i class="fa fa-gears text-aqua"></i> <span>管理站点</span></a></li>
-                <li><a href="#"><i class="fa  fa-warning text-yellow"></i> <span>举报信息</span></a></li>
-                <!--<li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Information</span></a></li>-->
+                {% endif %}
 
             </ul>
         </section>
@@ -259,12 +185,12 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                我的留言板
-                <small>崩坏中心</small>
+                崩坏广场
+                <small>Tim</small>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> 我的留言板</a></li>
-                <li><a href="#"> 当前位置</a></li>
+                <li><a href="{% url 'index'%}"><i class="fa fa-dashboard"></i> 崩坏广场</a></li>
+                <li><a> 当前位置</a></li>
                 <!--
                 <li class="active">Timeline</li>
                 -->
@@ -283,77 +209,6 @@
 
   
      
- 
- 
-
-                    <!-- /.timeline-label -->
-                    <!--
-                        邮件ico
-                    <i class="fa fa-envelope bg-blue"></i>
-
-                        联系人ico
-                    <i class="fa fa-user bg-aqua"></i>
-            
-                        消息ico
-                    <i class="fa fa-comments bg-yellow"></i>
-                    -->
-
-                    <!-- timeline time label -->
-
-                    
-                    <!-- timeline item -->
-
-                <!--
-                        <li class="time-label ">
-                            <span class="bg-red">
-                                {{item.time_now}} 
-                            </span>
-                        </li>
-
-                    <li>
-                        <i class="fa fa-comments bg-yellow"></i>
-
-                        <div class="timeline-item">
-                            <span class="time"><i class="fa fa-clock-o"></i> 12:05</span>
-                            <span class="time"><i class="fa fa-user"></i><a href="">Job</a> </span>
-
-                            <h3 class="timeline-header"> <a href="#">{{line.title}}</a></h3>
-
-                            <div class="timeline-body">
-                                {{line|safe}}
-                            </div>
-                            
-                            <div class="timeline-body">
-                                <img src="http://placehold.it/150x100" alt="..." class="margin">
-                                <img src="http://placehold.it/150x100" alt="..." class="margin">
-                                <img src="http://placehold.it/150x100" alt="..." class="margin">
-                                <img src="http://placehold.it/150x100" alt="..." class="margin">
-                            </div>
-
-                            <div class="timeline-body">
-                                <div class="embed-responsive embed-responsive-16by9">
-                                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/tMWkeBIohBs"
-                                        frameborder="0" allowfullscreen></iframe>
-                                </div>
-                            </div>
-
-                            <div class="timeline-footer">
-                                <a class="btn btn-primary btn-xs">打开</a>
-                                <a class="btn btn-danger btn-xs">删除</a>
-                            </div>
-                            
-                            <br>
-                        </div>
-                    </li>
-                -->
-
- 
-
-    
- 
-
-
-
                     {% for keys, value in value_dict.items %}
                         <li class="time-label ">
                             {% if value|key:"time"|time_get %}
@@ -366,66 +221,113 @@
                             </span>
                             {% endif %}
                         </li>
-                        
+
                         {% for v in value|key:"contents_dicts" %}
-                            
+
                         <li>
                             <i class="fa fa-comments bg-yellow"></i>
+
                             <div class="panel timeline-item">
-                            
+                                
                                 <span class="time"><i class="fa fa-clock-o"></i> 
                                     {{ v|key:"time_now"|safe|time_key:":1" }} 
                                 </span>
+
                                 <span class="time"><i class="fa fa-user"></i>
                                     <a href="">
                                         {{ v|key:"username"|safe }} 
                                     </a> 
                                 </span>
-                                <span class="time"><i class="fa fa-clock-o"></i>编辑</span>
+
                                 <h3 class="timeline-header"> <a href="#">
-                                    <a data-toggle="collapse" data-parent="#accordion" href='#{{v|key:"id"|safe}}'>{{ v|key:"title" }}</a></a>
+                                    <a data-toggle="collapse" data-parent="#accordion" href='#{{v|key:"id"|safe}}'>{{ v|key:"title" }}</a>
                                 </h3>
-                                
-                                {% if value|key:"time"|time_get %}
+
+
+                                    {% if value|key:"time"|time_get %}
                                     <div id='{{v|key:"id"|safe}}' class="panel-collapse collapse in">
                                         <div class="box-body">
                                             <div class="timeline-body">
                                                {{ v|key:"content"|safe }} 
                                             </div>
-                                            <br>
-                                            <div class="timeline-footer">
-                                                <a href='#{{v|key:"id"}}' data-toggle="collapse" data-parent="#accordion" class="btn btn-primary btn-xs">收起</a>
-                                                <a class="btn btn-danger btn-xs">删除</a>
+                                            <div class="box-footer">
+                                                <div class="btn-group ">
+                                                    <a href='#{{v|key:"id"}}' data-toggle="collapse" data-parent="#accordion" 
+                                                    class="btn btn-default btn-sm">
+                                                        收起
+                                                    </a>
+                                                    <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+                                                        <span class="caret"></span>
+                                                    </button>
+                                                    <ul class="dropdown-menu" role="menu">
+                                                        <li><a href="#">编辑</a></li>
+                                                        <li><a href="#">删除</a></li>
+                                                        <li class="divider"></li>
+                                                        <li><a href="#">推荐</a></li>
+                                                        <li><a href="#">锁定</a></li>
+                                                    </ul>
+                                                </div>
+
+                                                <div class="pull-right">
+                                                    <aclass="btn btn-xs">
+                                                        <p>
+                                                            <span class="label label-danger">标签</span>
+                                                            <span class="label label-success">Coding</span>
+                                                            <span class="label label-info">Javascript</span>
+                                                            <span class="label label-warning">PHP</span>
+                                                            <span class="label label-primary">Node.js</span>
+                                                        </p>
+
+                                                        
+                                                    </aclass>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                {% else %}
+                                    {% else %}
                                     <div id='{{v|key:"id"|safe}}' class="panel-collapse collapse">
                                         <div class="box-body">
                                             <div class="timeline-body">
                                                {{ v|key:"content"|safe }} 
                                             </div>
-                                            <br>
-                                            <div class="timeline-footer">
-                                                <a href='#{{v|key:"id"|safe}}' data-toggle="collapse" data-parent="#accordion" class="btn btn-primary btn-xs">收起</a>
-                                                <a class="btn btn-danger btn-xs">删除</a>
+                                            <div class="box-footer">
+                                                <div class="btn-group ">
+                                                    <a href='#{{v|key:"id"}}' data-toggle="collapse" data-parent="#accordion" 
+                                                    class="btn btn-default btn-sm">
+                                                        收起
+                                                    </a>
+                                                    <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+                                                        <span class="caret"></span>
+                                                    </button>
+                                                    <ul class="dropdown-menu" role="menu">
+                                                        <li><a href="#">编辑</a></li>
+                                                        <li><a href="#">删除</a></li>
+                                                        <li class="divider"></li>
+                                                        <li><a href="#">推荐</a></li>
+                                                        <li><a href="#">锁定</a></li>
+                                                    </ul>
+                                                </div>
+
+                                                <div class="pull-right">
+                                                    <aclass="btn btn-xs">
+                                                        <p>
+                                                            <span class="label label-danger">UI Design</span>
+                                                            <span class="label label-success">Coding</span>
+                                                            <span class="label label-info">Javascript</span>
+                                                            <span class="label label-warning">PHP</span>
+                                                            <span class="label label-primary">Node.js</span>
+                                                        </p>
+                                                    </aclass>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                {% endif %}
+                                    {% endif %}
                                 
                             </div>
                         </li>
                         {% endfor %}
                         
                     {% endfor %}
-
-      
-
-
-
-
-
 
                     <li>
                         <i class="fa fa-clock-o bg-gray"></i>
@@ -434,9 +336,12 @@
 
                 </ul>
             </div>
-            <!-- /.col -->
+
+
+            {% if auth_login %}
+
             <div class="row">
-                <a class="btn btn-app btn-default bg-yellow" data-toggle="modal" data-target="#modal-default" 
+                <a class="btn btn-app btn-default bg-aqua" data-toggle="modal" data-target="#modal-default" 
                     style="position: fixed; bottom: 45px; z-index: 100; right:2%;">
                     <i class="fa fa-edit"></i> <span>留言</span>
                 </a>
@@ -451,60 +356,62 @@
                             <h4 class="modal-title">发表新的留言</h4>
                         </div>
                         <div class="modal-body">
-   
+                            <form id="login-form" action="{% url 'create' %}" method="POST">
+                                {% csrf_token %}
+                                <div class="box-body pad">
+                                    <div class="form-group has-feedback">
+                                        <input type="text" class="form-control" placeholder="留言标题" name="title" value="{{title}}">
+                                    </div>
 
-
-        <form id="login-form" action="/app/create/" method="POST">
-
-
-            <div class="box-body pad">
-
-
-<div class="form-group has-feedback">
-    <input type="text" class="form-control" placeholder="留言标题" name="title" value="{{title}}">
-</div>
-
-                <div class="form-group">
-                    <label>分类</label>
-                    <select class="form-control select2" style="width: 100%;">
-                        <option selected="selected">Linux 运维</option>
-                        <option>Python 教程</option>
-                        <option>Django 框架</option>
-                    </select>
-                </div>
-
-
-                <div class=" form-group">
-                    <label>标签</label>                    
-                    <select class="form-control select2 bg-green" multiple="multiple" data-placeholder="Select a State"
-                            style="width: 100%;">
-                        <option>WIKI</option>
-                        <option>Linux</option>
-                        <option>Django</option>
-                        <option>WEB</option>
-                    </select>
-                </div>
-
-                {% csrf_token %}
-                <textarea id="editor1" name="content" rows="10" cols="80">
-                        您可以在此处留言，写代码等！鼠标点击空白处可返回桌面，再次打开可继续编辑！
-                </textarea>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">留言</button>
-                </div>
-
-                </form>
-            </div>
+                                    <!--
+                                    <div class="form-group">
+                                        <label>分类</label>
+                                        <select class="form-control select2" style="width: 100%;">
+                                            <option selected="selected">Linux 运维</option>
+                                            <option>Python 教程</option>
+                                            <option>Django 框架</option>
+                                        </select>
+                                    </div>
 
 
 
+                                    <div class=" form-group">
+                                        <label>标签</label>                    
+                                        <select class="form-control select2 bg-green" multiple="multiple" data-placeholder="Select a State"
+                                                style="width: 100%;">
+                                            <option>WIKI</option>
+                                            <option>Linux</option>
+                                            <option>Django</option>
+                                            <option>WEB</option>
+                                        </select>
+                                    </div>
+                                    -->
 
-
-        </div>
-                        
+                                    
+                                    <textarea id="editor1" name="content" rows="10" cols="80">
+                                            您可以在此处留言，写代码等！鼠标点击空白处可返回桌面，再次打开可继续编辑！
+                                    </textarea>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">留言</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
+
+            {% else %}
+            <div class="row">
+                <a class="btn btn-app btn-default bg-aqua" href="{% url 'login' %}"
+                    style="position: fixed; bottom: 45px; z-index: 100; right:2%;">
+                    <i class="fa fa-user"></i> <span>请登陆</span>
+                </a>
+            </div>
+            {% endif %}
+
+
+            
 
         </div>
         <!-- /.row -->

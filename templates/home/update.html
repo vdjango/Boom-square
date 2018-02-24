@@ -52,84 +52,7 @@
                     </a>
                 <div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">
-                        <!-- Messages: style can be found in dropdown.less-->
-                        <li class="dropdown messages-menu">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <i class="fa fa-envelope-o"></i>
-                                    <span class="label label-success">2</span>
-                                </a>
-                            <ul class="dropdown-menu">
-                                <li class="header">您有2条留言未读</li>
-                                <li>
-                                    <!-- inner menu: contains the actual data -->
-                                    <ul class="menu">
-                                        <!-- start message -->
-                                        <li>
-                                            <a href="#">
-                                                <div class="pull-left">
-                                                    <img src="{%static 'dist/img/user2-160x160.jpg'%}" class="img-circle" alt="User Image">
-                                                </div>
-                                                <h4>
-                                                        留言标题
-                                                        <small><i class="fa fa-clock-o"></i> 留言时间</small>
-                                                    </h4>
-                                                <p>留言前半部分正文</p>
-                                            </a>
-                                        </li>
-                                        <!-- end message -->
-                                        <!-- start message -->
-                                        <li>
-                                            <a href="#">
-                                                <div class="pull-left">
-                                                    <img src="{%static 'dist/img/user2-160x160.jpg'%}" class="img-circle" alt="User Image">
-                                                </div>
-                                                <h4>
-                                                        留言标题
-                                                        <small><i class="fa fa-clock-o"></i> 留言时间</small>
-                                                    </h4>
-                                                <p>留言前半部分正文</p>
-                                            </a>
-                                        </li>
-                                        <!-- end message -->
-                                    </ul>
-                                </li>
-                                <li class="footer"><a href="#">全部标记已读</a></li>
-                            </ul>
-                        </li>
-                        <!-- Notifications: style can be found in dropdown.less -->
-                        <li class="dropdown notifications-menu">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <i class="fa fa-bell-o"></i>
-                                    <span class="label label-warning">10</span>
-                                </a>
-                            <ul class="dropdown-menu">
-                                <li class="header"><span>您好，管理员。最新信息如下</span> </li>
-                                <li>
-                                    <!-- inner menu: contains the actual data -->
-                                    <ul class="menu">
-                                        <li>
-                                            <a href="#">
-                                                    <i class="fa fa-users text-aqua"></i>
-                                                    <span>截至目前时间，已有 8 人注册</span> 
-                                                </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                    <i class="fa fa-users text-red"></i> 
-                                                    <span>发现新的举报，被举报人数 7</span>
-                                                </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                    <i class="fa fa-warning text-yellow"></i>
-                                                    <span>发现新版本，有更新</span>
-                                                </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="footer"><a href="#">清除全部信息</a></li>
-                            </ul>
-                        </li>
+ 
                         <!-- User Account: style can be found in dropdown.less -->
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -149,13 +72,13 @@
                                 <li class="user-body">
                                     <div class="row">
                                         <div class="col-xs-4 text-center">
-                                            <a href="/admin/">管理后台</a>
+                                            <a href="">管理后台</a>
                                         </div>
                                         <div class="col-xs-4 text-center">
                                             <a href="/user/info/">个人信息</a>
                                         </div>
                                         <div class="col-xs-4 text-center">
-                                            <a href="#">Friends</a>
+                                            <a href="{% url 'update'%}">检查更新</a>
                                         </div>
                                     </div>
                                     <!-- /.row -->
@@ -163,19 +86,15 @@
                                 <!-- Menu Footer-->
                                 <li class="user-footer">
                                     <div class="pull-left">
-                                        <a href="/user/" class="btn btn-default btn-flat">崩坏中心</a>
+                                        <a href="{% url 'index'%}" class="btn btn-default btn-flat">崩坏广场</a>
                                     </div>
                                     <div class="pull-right">
-                                        <a href="/auth/logout/" class="btn btn-default btn-flat">登出</a>
+                                        <a href="{% url 'logout'%}" class="btn btn-default btn-flat">登出</a>
                                     </div>
                                 </li>
                             </ul>
                         </li>
-                        <!-- Control Sidebar Toggle Button
-                            <li>
-                                <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-                            </li>
-                             -->
+ 
                     </ul>
                 </div>
             </nav>
@@ -190,12 +109,20 @@
                         <img src="{%static 'dist/img/user2-160x160.jpg'%}" class="img-circle" alt="User Image">
                     </div>
                     <div class="pull-left info">
-                        <p>{{username}}</p>
-                        <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
-                    </div>
+                    <p>{{username}}</p>
+                    <a href="#"><i class="fa fa-circle text-success"></i> 
+                        {% if admin %}
+                            <span>超级管理员</span>         
+                        {% elif admin == None %}
+                            <span>游客</span>
+                        {% else %}
+                            <span>用户</span>
+                        {% endif %}
+                    </a>
+                </div>
                 </div>
                 <!-- search form -->
-                <form action="#" method="get" class="sidebar-form">
+                <form action="/search" method="get" class="sidebar-form">
                     <div class="input-group">
                         <input type="text" name="q" class="form-control" placeholder="Search...">
                         <span class="input-group-btn">
@@ -210,90 +137,35 @@
                     <li class="header">我的仪表盘</li>
                     <li>
                         <a href="#">
-                                <i class="fa fa-dashboard"></i>
-                                <span>仪表盘</span>
-                                <span class="pull-right-container">
-                                    <small class="label pull-right bg-red">New</small>
-                                </span>
-                            </a>
+                            <i class="fa fa-dashboard"></i>
+                            <span>仪表盘</span>
+                            <span class="pull-right-container">
+                                <small class="label pull-right bg-red">New</small>
+                            </span>
+                        </a>
                     </li>
                     <li>
                         <a href="#">
-                                <i class="fa fa-dashboard"></i>
-                                <span>崩坏广场</span>
-                                <span class="pull-right-container">
-                                    <small class="label pull-right bg-red">New</small>
-                                </span>
-                            </a>
+                            <i class="fa fa-commenting"></i>
+                            <span>用户中心</span>
+                        </a>
                     </li>
+
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-commenting"></i>
+                            <span>面板设置</span>
+                        </a>
+                    </li>
+
                     <li class="active">
-                        <a href="#">
-                                <i class="fa fa-commenting"></i>
-                                <span>我的留言板</span>
-                                <span class="pull-right-container">
-                                    <span class="label label-primary pull-right">4</span>
-                                </span>
-                            </a>
+                        <a href="{% url 'update'%}">
+                            <i class="fa fa-commenting"></i>
+                            <span>检查更新</span>
+                        </a>
                     </li>
-                    <li class="treeview">
-                        <a href="#">
-                                <i class="fa fa-envelope"></i> <span>我的邮件</span>
-                                <span class="pull-right-container">
-                                    <i class="fa fa-angle-left pull-right"></i>
-                                    <small class="label pull-right bg-red">New</small>
-                                </span>
-                            </a>
-                        <ul class="treeview-menu">
-                            <li>
-                                <a href="../mailbox/compose.html">
-                                        <i class="fa fa-paint-brush"></i><span>新邮件</span>
-                                    </a>
-                            </li>
-                            <li>
-                                <a href="../mailbox/mailbox.html">
-                                        <i class="fa fa-envelope"></i><span>收件箱</span>
-                                        <span class="pull-right-container">
-                                            <small class="label pull-right bg-green">5</small>
-                                        </span>
-                                    </a>
-                            </li>
-                            <li>
-                                <a href="../mailbox/mailbox.html">
-                                        <i class="fa fa-gear"></i><span>设置</span>
-                                        <span class="pull-right-container">
-                                            <small class="label pull-right bg-red">5</small>
-                                        </span>
-                                    </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#">
-                                <i class="fa fa-code"></i>
-                                <span>我的WIKI</span>
-                                <span class="pull-right-container">
-                                    <span class="label label-primary pull-right">4</span>
-                                </span>
-                            </a>
-                    </li>
-                    <li class="treeview">
-                        <a href="#">
-                                <i class="fa fa-user"></i>
-                                <span>个人信息</span>
-                                <span class="pull-right-container">
-                                    <i class="fa fa-angle-left pull-right"></i>
-                                </span>
-                            </a>
-                        <ul class="treeview-menu">
-                            <li><a href="../examples/profile.html"><i class="fa fa-circle-o"></i> 个人信息</a></li>
-                            <li><a href="../examples/login.html"><i class="fa fa-circle-o"></i> 账号密码</a></li>
-                            <li><a href="../examples/register.html"><i class="fa fa-circle-o"></i> 注销账号</a></li>
-                        </ul>
-                    </li>
-                    <li class="header">管理员</li>
-                    <li><a href="#"><i class="fa fa-gears text-aqua"></i> <span>管理站点</span></a></li>
-                    <li><a href="#"><i class="fa  fa-warning text-yellow"></i> <span>举报信息</span></a></li>
-                    <!--<li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Information</span></a></li>-->
+
+                
                 </ul>
             </section>
             <!-- /.sidebar -->
@@ -305,15 +177,15 @@
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h1>
-                        检查更新
-                        <small>Update</small>
-                    </h1>
+                    检查更新
+                    <small>Update</small>
+                </h1>
                 <ol class="breadcrumb">
                     <li><a href="#"><i class="fa fa-dashboard"></i> 检查更新</a></li>
                     <li><a href="#"> 当前位置</a></li>
                     <!--
-                        <li class="active">Timeline</li>
-                        -->
+                    <li class="active">Timeline</li>
+                    -->
                 </ol>
             </section>
             <!-- Main content -->

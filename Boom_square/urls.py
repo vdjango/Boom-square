@@ -20,16 +20,17 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 
 
-@login_required(login_url='/auth/login/')
+# @login_required(login_url='/auth/login/')
 def index(request):
     return HttpResponseRedirect('/app/')
 
 
 urlpatterns = [
+    # adminsetup
     url(r'^auth/', include('account.urls')),
-    url(r'^user/', include('user.urls'), name='user'),
-    url(r'^app/', include('app.urls'), name='app'),
-    url(r'^admin/', admin.site.urls),
+    url(r'^user/', include('user.urls')),
+    url(r'^app/', include('app.urls')),
+    url(r'^admin/', admin.site.urls, name='admin'),
     url(r'^update/', include('update.urls')),
     url(r'^$', index),
 ]

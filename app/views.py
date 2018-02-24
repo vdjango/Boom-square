@@ -40,10 +40,10 @@ class log():
         print('Log.d:', l, arg)
 
 
-@login_required(login_url='/auth/login/')
+# @login_required(login_url='/auth/login/')
 def user_home(request):
     cont = models.App_GET_Text_all()
-
+    len_blog = 0
     # content_dict = {}
     value_dict = {}
     # conlist_dict = {}
@@ -52,7 +52,16 @@ def user_home(request):
 
     time_date = '2018-01-01 00:00:00'
 
-    username = request.user.username
+    if request.method == 'GET':
+        if request.user.is_authenticated():
+            username = request.user.username
+            pers = user_admin(str(username))
+            auth_logins = True
+
+        else:
+            username = '您好，请登陆'
+            pers = None
+            auth_logins = False
 
     Inits = 0
 
@@ -72,24 +81,25 @@ def user_home(request):
             )
 
             time_date = str(data).split('.')[0]
-            log.d('value.append', 'Add')
+            # log.d('value.append', 'Add')
 
         else:
             if time_date != '2018-01-01 00:00:00' and value:
-                log.d('value_dict', 'Add')
+                # log.d('value_dict', 'Add')
                 value_dict[str(Inits)] = {
                     'time': time_date,
                     'contents_dicts': value
                 }
 
+            if int(Inits) == 0:
+                len_blog = len(value)
+
             value = []
             Inits = int(number)
 
-        log.d('len(value)', str(len(value)) + ' ,' + str(number))
-
     if len(value) > 1:
         if time_date != '2018-01-01 00:00:00' and value:
-            log.d('len(value)', len(value))
+            # log.d('len(value)', len(value))
             value_dict[str(Inits)] = {
                 'time': time_date,
                 'contents_dicts': value
@@ -99,12 +109,12 @@ def user_home(request):
         Inits = int(number)
 
     content = {
+        'auth_login': auth_logins,
         'username': str(username),  # 用户名称
-        'admin': user_admin(str(username)),  # 超级管理员
+        'admin': pers,  # 超级管理员
+        'len_blog': len_blog,
         'value_dict': value_dict  # 文章等等
     }
-
-    log.d('content', content)
 
     return render(request, 'home/home.html', content)
 

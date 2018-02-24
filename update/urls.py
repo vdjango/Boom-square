@@ -9,7 +9,7 @@ from django.conf.urls import url
 from update import views
 
 urlpatterns = [
-    url(r'^$', views.update, name='user'),
+    url(r'^$', views.update, name='update'),
     url(r'^version_get/$', views.version_get,
         name='version_get'),  # 处理数据的url, 当前页面的地址
     url(r'^version_update/$', views.version_update, name='version_update')

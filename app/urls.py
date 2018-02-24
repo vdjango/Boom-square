@@ -10,6 +10,6 @@ from . import views
 
 
 urlpatterns = [
-    url(r'^$', views.user_home, name='home'),
+    url(r'^$', views.user_home, name='index'),
     url(r'^create/$', views.create, name='create')
 ]

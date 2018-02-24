@@ -58,7 +58,13 @@ def update(request):
     if request.method == 'GET':
         global latest_version
         global release_url
-        rend, latest_version, release_url = update_view(request, version)
+        rend, latest_version, release_url, upda = update_view(request, version)
+        if upda:
+            auth_update = True
+        else:
+            auth_update = False
+            pass
+
         latest_version = latest_version
         release_url = release_url
         print('latest_version', latest_version, 'release_url', release_url)
