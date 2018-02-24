@@ -8,7 +8,7 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from app import models
-
+from account.permiss.auth_permissions import user_admin
 
 # from .models import Blog
 # import markdown
@@ -99,13 +99,12 @@ def user_home(request):
         Inits = int(number)
 
     content = {
-        'username': str(username),
-        'value_dict': value_dict
+        'username': str(username),  # 用户名称
+        'admin': user_admin(str(username)),  # 超级管理员
+        'value_dict': value_dict  # 文章等等
     }
 
     log.d('content', content)
-
-    # return HttpResponse(json.dumps(content_list1))
 
     return render(request, 'home/home.html', content)
 
