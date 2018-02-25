@@ -93,7 +93,7 @@
     https://www.python.org/ftp/python/3.6.4/python-3.6.4.exe
 
 *然后在cmd窗口输入命令即可*
-*打开命令提示符【CMD】会不会？不会请百度 <---点击查看方法*
+*打开命令提示符【CMD】会不会？ [an example](http://example.com/ "不会请百度") <---点击查看方法*
  
     pip3.6 install Django==1.10 && pip3.6 install uwsgi && pip3.6 install markdown
 
