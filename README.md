@@ -4,11 +4,9 @@
 
 ![Alt text](img/log.png)
   
-<br>
   
 **崩坏广场**是一款专为留言板，个人博客等（BoomSquare）打造的WEB站点，通过精心的设计与耐心的研究，配合Markdown强大的排版功能，带来前所未有的书写体验。
 
-<br>
 <br>
 
 ## *☆* 简介
@@ -37,7 +35,6 @@
 * 优雅的界面，加上Markdown让你写作更完美
 
 <br>
-<br>
 
 ## *★* 突突突，这里不是图
 ![Alt text](img/1.png)
@@ -47,7 +44,6 @@
 ![Alt text](img/5.png)
 ![Alt text](img/6.png)
 
-<br>
 <br>
 
 ## *★* 如何安装崩坏广场？
@@ -65,7 +61,6 @@
     * setuptools
     * uwsgi
 
-<br>
 <br>
 
 ## *☆* 快速指南 *安装三步骤*
@@ -113,7 +108,6 @@
 
     uwsgi --http :8000 --module 你的路径/Boom_square.wsgi
 
-<br>
 <br>
 
 ## *▲* Markdown简介
@@ -191,7 +185,6 @@ class SomeClass:
 #### 引用文本
 	> That is pulled out like this from the text my post.
 
-<br>
 <br>
 
 > **提示：**想了解更多，请查看 **百度百科** [Markdown语法][2]。
