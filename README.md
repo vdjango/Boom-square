@@ -1,7 +1,6 @@
 * 简体中文
 * [English]()
 
-<br>
 
 ![Alt text](img/log.png)
   
@@ -9,7 +8,6 @@
   
 **崩坏广场**是一款专为留言板，个人博客等（BoomSquare）打造的WEB站点，通过精心的设计与耐心的研究，配合Markdown强大的排版功能，带来前所未有的书写体验。
 
-<br>
 <br>
 <br>
 
@@ -40,7 +38,6 @@
 
 <br>
 <br>
-<br>
 
 ## *★* 突突突，这里不是图
 ![Alt text](img/1.png)
@@ -50,7 +47,6 @@
 ![Alt text](img/5.png)
 ![Alt text](img/6.png)
 
-<br>
 <br>
 <br>
 
@@ -69,7 +65,6 @@
     * setuptools
     * uwsgi
 
-<br>
 <br>
 <br>
 
@@ -118,7 +113,6 @@
 
     uwsgi --http :8000 --module 你的路径/Boom_square.wsgi
 
-<br>
 <br>
 <br>
 
@@ -197,8 +191,6 @@ class SomeClass:
 #### 引用文本
 	> That is pulled out like this from the text my post.
 
-<br>
-<br>
 <br>
 <br>
 
