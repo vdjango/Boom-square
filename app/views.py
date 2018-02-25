@@ -40,7 +40,6 @@ class log():
         print('Log.d:', l, arg)
 
 
-# @login_required(login_url='/auth/login/')
 def user_home(request):
     cont = models.App_GET_Text_all()
     len_blog = 0
@@ -138,3 +137,50 @@ def create(request):
             }
 
             return render(request, 'create.html', content)
+
+
+tids = None
+
+
+@login_required(login_url='/auth/login/')
+def edit(request, tid=None):
+    global tids
+    if request.method == 'GET':
+        tids = tid
+
+        tid_con = models.App_Blog.objects.get(id=tid)
+        tid_user = tid_con.username
+        username = request.user.username
+
+        if str(tid_user) == str(username):
+            title = tid_con.title
+            content = tid_con.content
+            dic = {'title': title, 'content': content}
+            return render(request, 'home/editors.html', dic)
+
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        content = request.POST.get('content')
+        print('title', title)
+        app = models.App_Blog.objects.get(id=tids)
+        app.title = title
+        app.content = content
+        app.save()
+
+        return HttpResponseRedirect('/')
+
+    return HttpResponseRedirect('/')
+
+
+@login_required(login_url='/auth/login/')
+def delete(request, tid):
+    if request.method == 'GET':
+        tid_con = models.App_Blog.objects.get(id=tid)
+        tid_user = tid_con.username
+        username = request.user.username
+
+        if str(tid_user) == str(username):
+            print('删除', tid_user, '==', username)
+            tid_con.delete()
+
+        return HttpResponseRedirect('/')

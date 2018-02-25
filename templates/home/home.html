@@ -243,6 +243,18 @@
                                     <a data-toggle="collapse" data-parent="#accordion" href='#{{v|key:"id"|safe}}'>{{ v|key:"title" }}</a>
                                 </h3>
 
+                                <div class="box-footer">
+                                    <aclass="btn btn-xs">
+                                        <p>
+                                            <span class="label label-danger">标签</span>
+                                            <span class="label label-success">Coding</span>
+                                            <span class="label label-info">Javascript</span>
+                                            <span class="label label-warning">PHP</span>
+                                            <span class="label label-primary">Node.js</span>
+                                        </p>
+                                    </aclass>
+                                </div>
+
 
                                     {% if value|key:"time"|time_get %}
                                     <div id='{{v|key:"id"|safe}}' class="panel-collapse collapse in">
@@ -260,27 +272,15 @@
                                                         <span class="caret"></span>
                                                     </button>
                                                     <ul class="dropdown-menu" role="menu">
-                                                        <li><a href="#">编辑</a></li>
-                                                        <li><a href="#">删除</a></li>
-                                                        <li class="divider"></li>
+                                                        <li><a href="{% url 'edit' v.id %}">编辑</a></li>
+                                                        <li><a href="{% url 'delete' v.id %}">删除</a></li>
+                                                        <!--<li class="divider"></li>
                                                         <li><a href="#">推荐</a></li>
-                                                        <li><a href="#">锁定</a></li>
+                                                        <li><a href="#">锁定</a></li>-->
                                                     </ul>
                                                 </div>
 
-                                                <div class="pull-right">
-                                                    <aclass="btn btn-xs">
-                                                        <p>
-                                                            <span class="label label-danger">标签</span>
-                                                            <span class="label label-success">Coding</span>
-                                                            <span class="label label-info">Javascript</span>
-                                                            <span class="label label-warning">PHP</span>
-                                                            <span class="label label-primary">Node.js</span>
-                                                        </p>
-
-                                                        
-                                                    </aclass>
-                                                </div>
+                                                
                                             </div>
                                         </div>
                                     {% else %}
@@ -299,25 +299,15 @@
                                                         <span class="caret"></span>
                                                     </button>
                                                     <ul class="dropdown-menu" role="menu">
-                                                        <li><a href="#">编辑</a></li>
-                                                        <li><a href="#">删除</a></li>
-                                                        <li class="divider"></li>
+                                                        <li><a href="{% url 'edit' v.id %}">编辑</a></li>
+                                                        <li><a href="{% url 'delete' v.id %}">删除</a></li>
+                                                        <!--<li class="divider"></li>
                                                         <li><a href="#">推荐</a></li>
-                                                        <li><a href="#">锁定</a></li>
+                                                        <li><a href="#">锁定</a></li>-->
                                                     </ul>
                                                 </div>
 
-                                                <div class="pull-right">
-                                                    <aclass="btn btn-xs">
-                                                        <p>
-                                                            <span class="label label-danger">UI Design</span>
-                                                            <span class="label label-success">Coding</span>
-                                                            <span class="label label-info">Javascript</span>
-                                                            <span class="label label-warning">PHP</span>
-                                                            <span class="label label-primary">Node.js</span>
-                                                        </p>
-                                                    </aclass>
-                                                </div>
+                                                
                                             </div>
                                         </div>
                                     </div>
@@ -346,6 +336,7 @@
                     <i class="fa fa-edit"></i> <span>留言</span>
                 </a>
             </div>
+
             <div class="modal fade" id="modal-default">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -362,32 +353,6 @@
                                     <div class="form-group has-feedback">
                                         <input type="text" class="form-control" placeholder="留言标题" name="title" value="{{title}}">
                                     </div>
-
-                                    <!--
-                                    <div class="form-group">
-                                        <label>分类</label>
-                                        <select class="form-control select2" style="width: 100%;">
-                                            <option selected="selected">Linux 运维</option>
-                                            <option>Python 教程</option>
-                                            <option>Django 框架</option>
-                                        </select>
-                                    </div>
-
-
-
-                                    <div class=" form-group">
-                                        <label>标签</label>                    
-                                        <select class="form-control select2 bg-green" multiple="multiple" data-placeholder="Select a State"
-                                                style="width: 100%;">
-                                            <option>WIKI</option>
-                                            <option>Linux</option>
-                                            <option>Django</option>
-                                            <option>WEB</option>
-                                        </select>
-                                    </div>
-                                    -->
-
-                                    
                                     <textarea id="editor1" name="content" rows="10" cols="80">
                                             您可以在此处留言，写代码等！鼠标点击空白处可返回桌面，再次打开可继续编辑！
                                     </textarea>
