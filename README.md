@@ -2,48 +2,39 @@
 * [English]()
 
 ![Alt text](img/log.png)
-
- 
-
+  
+  
 **崩坏广场**是一款专为留言板，个人博客等（BoomSquare）打造的WEB站点，通过精心的设计与耐心的研究，配合Markdown强大的排版功能，带来前所未有的书写体验。
-
- 
-
-
-** 
- 
-**
+  
+  
+  
 ## *☆* 简介
-
+  
 #### **功能丰富** ：
-
+  
 * 支持Markdown语法，支持高亮代码 [√]
 * 可只由切换 留言 和博客 模式 [√]
 * 支持于皮肤站账号系统对接 [×]
 * 支持authme插件对接 [×]
 * 更多后续完善
-
-
+  
+  
 #### **崩坏广场的优点**：
-
+  
 * 专注你的文字内容而不是排版样式，安心写作。
 * 随时修改你的文章版本，不必像字处理软件生成若干文件版本导致混乱。
 * 可读、直观、学习成本低。
 * 统一管理authme账号，实现与登陆插件对接等功能
-
-
+  
+  
 #### **得心应手** ：
-
+  
 * 简洁高效的编辑器，轻松的导出 HTML、PDF 和本身的 .md 文件, 纯文本内容。
 * 兼容所有的文本编辑器与字处理软件；
 * 优雅的界面，加上Markdown让你写作更完美
-
- 
- 
-
-
-
-
+  
+  
+  
 ## *★* 突突突，这里不是图
 ![Alt text](img/1.png)
 ![Alt text](img/2.png)
@@ -51,15 +42,11 @@
 ![Alt text](img/4.png)
 ![Alt text](img/5.png)
 ![Alt text](img/6.png)
+  
+  
 
- 
- 
-
-
- 
 ## *★* 如何安装崩坏广场？
-
-
+  
 #### 环境要求
 * Python > 3.0 （服务器不支持？）
 * 安装如下 **Python** 环境 和 **扩展**：
@@ -67,21 +54,17 @@
     * Python > 3.0
     * Django == 1.10
     * Markdown
-
+  
 * 提供类似玉Nginx的web服务的 **Python** 扩展 [可选 **建议**]
     * setuptools
     * uwsgi
-
- 
- 
- 
-
-
+  
+  
+   
 ## *☆* 快速指南 *安装三步骤*
-
-
+  
 #### CentOS 7 环境安装
-
+  
 *步骤一: 安装epel源*
 
     rpm -ivh http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
@@ -90,8 +73,8 @@
 *步骤二: pip工具以及uwsgi 安装*
 
     yum install python36 wget && wget https://bootstrap.pypa.io/get-pip.py && python3.6 get-pip.py && pip3.6 install Django==1.10 && pip3.6 install uwsgi && pip3.6 install markdown
-
-
+  
+  
 #### CentOS 6 环境安装
 
 *步骤一: 安装epel源*
@@ -103,7 +86,7 @@
 
     yum install python36 wget && wget https://bootstrap.pypa.io/get-pip.py && python3.6 get-pip.py && pip3.6 install Django==1.10 && pip3.6 install uwsgi && pip3.6 install markdown
 
-
+  
 #### Windows 环境安装
 
 *步骤一: Python 环境安装【不需要我教你怎么做吧- 下载 - 双击 - 一路安装】*
@@ -115,20 +98,16 @@
  
     pip3.6 install Django==1.10 && pip3.6 install uwsgi && pip3.6 install markdown
 
-
+  
 #### 最后是共同部分【*最后一个步骤*】
 *可以制作成启动脚本，就像启动mc一样*
 *不分系统和版本，最后的启动方法一样*
 
     uwsgi --http :8000 --module 你的路径/Boom_square.wsgi
-
- 
- 
- 
-
-
-
-
+  
+  
+  
+  
 ## *▲* Markdown简介
 
 > Markdown 是一种轻量级的「标记语言」，它的优点很多，目前也被越来越多的写作爱好者，撰稿者广泛使用。看到这里请不要被「标记」、「语言」所迷惑，Markdown 的语法十分简单。常用的标记符号也不超过十个，这种相对于更为复杂的 HTML 标记语言来说，Markdown 可谓是十分轻量的，学习成本也不需要太多，且一旦熟悉这种语法规则，会有一劳永逸的效果。—— [维基百科][1]
