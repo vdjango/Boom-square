@@ -45,6 +45,4 @@ def get_user_access(request):
     from django.contrib.auth.models import User
     from django.http import HttpResponse
 
-
-
     return HttpResponse('Node')

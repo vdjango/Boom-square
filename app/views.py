@@ -10,6 +10,7 @@ from django.http import HttpResponseRedirect
 from app import models
 from django.contrib.auth.decorators import login_required, permission_required
 from app.view import app_index
+from account.permiss.auth_permissions import user_admin
 
 
 def user_home(request):
@@ -22,7 +23,22 @@ def user_home(request):
 @permission_required(perm='app.app_create_article', login_url='/app/info/')
 def create(request):
     if request.method == 'GET':
-        return render(request, 'home/editors.html')
+        auth_logins = False
+        username = None
+        pers = None
+
+        if request.user.is_authenticated():
+            username = request.user.username
+            pers = user_admin(str(username))
+            auth_logins = True
+
+        content = {
+            'auth_login': auth_logins,
+            'username': str(username),  # 用户名称
+            'admin': pers,  # 超级管理员
+        }
+
+        return render(request, 'home/editors.html', content)
 
     if request.method == 'POST':
         title = request.POST.get('title', '')
