@@ -6,12 +6,14 @@ import threading
 from django.contrib.auth.decorators import login_required, permission_required
 from update.utli.zip import update_main
 from django.shortcuts import render
+from update.models import update
+from app.utli.datetimenow import UTCS
 
 '''
 是否进行更新任务
 '''
 
-version = '0.0.0'  # 当前版本号
+version = '0.1.0'  # 当前版本号
 latest_version = '0.0.0'  # 最新版本
 release_url = ''
 auth_update = True
@@ -58,7 +60,7 @@ def version_update(request):
 
 @login_required(login_url='/auth/login/')
 @permission_required(perm='update.update_update_article', login_url='/update/info/')
-def update(request):
+def updates(request):
     if request.method == 'GET':
 
         from account.permiss.auth_permissions import user_admin
@@ -67,6 +69,22 @@ def update(request):
             pass
         global latest_version
         global release_url
+        global version
+
+        data = UTCS()
+        time = "%s-%s-%s %s:%s:%s" % (
+            data.year, data.month, data.day,
+            data.hour, data.minute, data.second)
+
+        ver = update.objects.all().values('version')
+
+        if not ver:
+            update(version=version, time=time).save()
+            ver = update.objects.all().values('version')
+            pass
+
+        version = ver[0]['version']
+
         rend, latest_version, release_url, upda = update_view(request, version)
         if upda:
             auth_update = True
@@ -84,6 +102,7 @@ class PrintThread(threading.Thread):
     def run(self):
         global auth_update
         global err
+        global version
 
         get, err = update_wget_main(release_url, 'file.zip')
 
@@ -113,6 +132,9 @@ class PrintThread(threading.Thread):
             pass
 
         auth_update = True
+        ver = update.objects.get(version=version)
+        ver.version = latest_version
+        ver.save()
 
 
 def info(request):

@@ -4,8 +4,8 @@ from django.db import models
 
 
 class update(models.Model):
-    version = models.CharField(max_length=20)
-    time = models.TimeField()
+    version = models.CharField(max_length=25)
+    time = models.DateTimeField(auto_now=True)
 
     class Meta:
         permissions = (

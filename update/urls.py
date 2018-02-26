@@ -9,7 +9,7 @@ from django.conf.urls import url
 from update import views
 
 urlpatterns = [
-    url(r'^$', views.update, name='update'),
+    url(r'^$', views.updates, name='update'),
     url(r'^version_get/$', views.version_get, name='version_get'),
     url(r'^version_update/$', views.version_update, name='version_update'),
     url(r'^info/$', views.info, name='info'),
