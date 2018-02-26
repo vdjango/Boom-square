@@ -61,3 +61,10 @@ class App_Blog(models.Model):
 
     class Meta:
         ordering = ['-time_now']
+        permissions = (
+            ("app_see_article", "访问视图权限"),
+            ("app_create_article", "创建留言权限"),
+            ("app_edit_article", "编辑留言权限"),
+            ("app_delete_article", "删除留言权限"),
+            ("app_reply_discussion", "评论留言权限"),
+        )

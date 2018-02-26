@@ -73,8 +73,10 @@ def auth_register_access(request, email, username, password, passd):
 
     # the password verified for the user
     from django.contrib.auth.models import User
+    from account.permiss import auth_permissions
     user = User.objects.create_user(username, email, password)
     user.save()
+    auth_permissions.add_group_default(username)
 
     login(request, authenticate(email=email, username=username, password=password))
     return auth_return_login(request), '注册成功！'

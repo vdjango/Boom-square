@@ -43,6 +43,9 @@
 ![Alt text](img/4.png)
 ![Alt text](img/5.png)
 ![Alt text](img/6.png)
+![Alt text](img/7.png)
+![Alt text](img/8.png)
+![Alt text](img/9.png)
 
 <br>
 

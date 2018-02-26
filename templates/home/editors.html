@@ -180,9 +180,11 @@
                 </h3>
                         </div>
                         <div class="box-body pad">
-                            
-                            <form action="{% url 'edits' %}" method="POST">
-                                
+                            {% if tid %}
+                            <form action="{% url 'edit_post' %}" method="POST">
+                            {% else %}
+                            <form action="{% url 'create' %}" method="POST">
+                            {% endif %}
                                 <div class="box-body"> 
                                     <div class="form-group has-feedback">
                                         <input type="text" class="form-control" placeholder="留言标题" name="title" value="{{title}}">
@@ -192,7 +194,11 @@
                                         {{content}}
                                     </textarea>
                                     <div class="modal-footer">
+                                        {% if tid %}
                                         <button type="submit" class="btn btn-primary">修改</button>
+                                        {% else %}
+                                        <button type="submit" class="btn btn-primary">留言</button>
+                                        {% endif %}
                                     </div>
                                 </div>
                             </form>

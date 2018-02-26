@@ -3,8 +3,9 @@ from django.http import HttpResponse, JsonResponse
 from update.utli.wget import update_wget_main, update_version_get
 from update.view.update_view import update_view
 import threading
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from update.utli.zip import update_main
+from django.shortcuts import render
 
 '''
 是否进行更新任务
@@ -19,6 +20,7 @@ err = ''
 
 
 @login_required(login_url='/auth/login/')
+@permission_required(perm='update.update_version_get_article', login_url='/update/info/')
 def version_get(request):
     '''
     获取更新下载进度
@@ -38,6 +40,7 @@ def version_get(request):
 
 
 @login_required(login_url='/auth/login/')
+@permission_required(perm='update.update_version_update_article', login_url='/update/info/')
 def version_update(request):
     '''
     开启线程进行更新
@@ -54,8 +57,14 @@ def version_update(request):
 
 
 @login_required(login_url='/auth/login/')
+@permission_required(perm='update.update_update_article', login_url='/update/info/')
 def update(request):
     if request.method == 'GET':
+
+        from account.permiss.auth_permissions import user_admin
+        per = user_admin(request.user.username)
+        if per == False:
+            pass
         global latest_version
         global release_url
         rend, latest_version, release_url, upda = update_view(request, version)
@@ -104,3 +113,23 @@ class PrintThread(threading.Thread):
             pass
 
         auth_update = True
+
+
+def info(request):
+    from account.permiss import auth_permissions
+    pers = None
+    username = None
+    auth_logins = False
+
+    if request.user.is_authenticated():
+        username = request.user.username
+        pers = auth_permissions.user_admin(str(username))
+        auth_logins = True
+
+    content = {
+        'auth_login': auth_logins,
+        'username': str(username),  # 用户名称
+        'admin': pers,  # 超级管理员
+    }
+
+    return render(request, 'error/403.html', content)
