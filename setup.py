@@ -9,6 +9,9 @@ import os
 
 
 def setadmin():
+    os.system('pip3.6 install django==1.10')
+    os.system('pip3.6 install markdown')
+    os.system('pip3.6 install uwsgi')
     os.system('python manage.py makemigrations')
     os.system('python manage.py migrate')
 
