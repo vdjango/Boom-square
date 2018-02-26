@@ -95,4 +95,4 @@ def auth_return_Redirect():
 
 
 def auth_return_home():
-    return HttpResponseRedirect('/user/')
+    return HttpResponseRedirect('/')
