@@ -19,6 +19,9 @@ def user_home(request):
         return render(request, 'home/home.html', content)
 
 
+def user_info(request):
+
+
 @login_required(login_url='/auth/login/')
 @permission_required(perm='app.app_create_article', login_url='/app/info/')
 def create(request):

@@ -1,6 +1,6 @@
 from django.http import HttpResponse, JsonResponse
 # Create your views here.
-from update.utli.wget import update_wget_main, update_version_get
+from update.utli.wget import wget, update_version_get
 from update.view.update_view import update_view
 import threading
 from django.contrib.auth.decorators import login_required, permission_required
@@ -16,7 +16,8 @@ from app.utli.datetimenow import UTCS
 version = '0.1.0'  # 当前版本号
 latest_version = '0.0.0'  # 最新版本
 release_url = ''
-auth_update = True
+auth_update = True  # 开启更新
+auth_install = False  # 安装完成
 number = 0
 err = ''
 
@@ -31,11 +32,13 @@ def version_get(request):
         global number
         number = update_version_get()
         print('number', number)
-        if int(number) >= 98:
+        if int(number) >= 95:
             if auth_update:
-                number = 100
+                if auth_install:
+                    number = 100
+
             else:
-                number = 98
+                number = 95
 
         print('number', number)
         return JsonResponse(number, safe=False)
@@ -100,11 +103,13 @@ def updates(request):
 
 class PrintThread(threading.Thread):
     def run(self):
+        global release_url
         global auth_update
         global err
         global version
+        global latest_version
 
-        get, err = update_wget_main(release_url, 'file.zip')
+        get, err = wget(release_url, 'file.zip')
 
         if get == False:
             print('下载失败', err)
@@ -135,6 +140,7 @@ class PrintThread(threading.Thread):
         ver = update.objects.get(version=version)
         ver.version = latest_version
         ver.save()
+        auth_install = True
 
 
 def info(request):

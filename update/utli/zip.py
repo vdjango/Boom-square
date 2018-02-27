@@ -122,50 +122,53 @@ def rmmove(srcPath='./', dstPath='update-version'):
         FilePath = os.path.join(srcPath, line)
         if os.path.isdir(FilePath):
             # 目录
-            print('目录', FilePath)
             dstAddPath = os.path.join(dstPath, line)
             if os.path.exists(dstAddPath):
                 # 目录文件存在
-                print('目录文件存在', FilePath)
+                print('备份', FilePath)
                 copyfile2(FilePath, dstAddPath)
             else:
                 # 目录文件不存在
-                print('目录文件不存在', FilePath)
+                print('备份', FilePath)
                 copytree2(FilePath, dstAddPath)
 
             # rmtree2(FilePath)
 
         else:
             # 文件
-            print('文件', FilePath)
+            print('备份', FilePath)
             move2(FilePath, dstPath)
 
     # os.rmdir(srcPath)
 
 
 def update_movefile(name, srcPath='update-version/', dstPath='./'):
-    srcPath = 'update-version/' + name
+    sPath = srcPath + name
 
-    for item in os.listdir(srcPath):
-        FilePath = os.path.join(srcPath, item)
+    print('测试', sPath)
+
+    for item in os.listdir(sPath):
+        print('测试', item)
+        FilePath = os.path.join(sPath, item)
         if os.path.isdir(FilePath):
+            print('测试', FilePath)
             # 目录
-            print('目录', FilePath)
             dstAddPath = os.path.join(dstPath, item)
             if os.path.exists(dstAddPath):
+                print('测试', dstAddPath)
                 # 目录文件存在
-                print('目录文件存在', FilePath)
+                print('安装', FilePath)
                 copyfile2(FilePath, dstAddPath)
             else:
                 # 目录文件不存在
-                print('目录文件不存在', FilePath)
+                print('安装', FilePath)
                 copytree2(FilePath, dstAddPath)
 
             rmtree2(FilePath)
 
         else:
             # 文件
-            print('文件', FilePath)
+            print('安装', FilePath)
             move2(FilePath, dstPath)
 
     rmtree2(srcPath)
