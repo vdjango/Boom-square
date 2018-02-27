@@ -89,7 +89,7 @@ def delete(request, tid):
         tid_user = tid_con.username
         username = request.user.username
 
-        if str(tid_user) == str(username):
+        if str(tid_user) == str(username) or user_admin(str(username)):
             print('删除', tid_user, '==', username)
             tid_con.delete()
 

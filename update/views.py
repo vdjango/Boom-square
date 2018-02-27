@@ -33,9 +33,10 @@ def version_get(request):
         number = update_version_get()
         print('number', number)
         if int(number) >= 95:
-            if auth_update:
-                if auth_install:
-                    number = 100
+            global auth_install
+            if auth_install:
+                number = 100
+                auth_install = False
 
             else:
                 number = 95
@@ -136,7 +137,6 @@ class PrintThread(threading.Thread):
             return rm
             pass
 
-        auth_update = True
         ver = update.objects.get(version=version)
         ver.version = latest_version
         ver.save()
