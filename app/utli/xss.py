@@ -15,9 +15,9 @@ def xss(comment_content):
     # 白名单，没有恶意的script 标签
     valid_tag = {
         'p': ['class', 'id'],
-        'img': ['src'],
-        'div': ['class'],
-        'title': ['class'],
+        'img': ['class', 'id', 'src'],
+        'div': ['class', 'id'],
+        'title': ['class', 'id'],
     }
     # 初始化一个BS对象，还有另一个方法，soup = BeautifulSoup(comment_content,'html.parser')
     soup = BeautifulSoup(comment_content, 'html.parser')
