@@ -181,7 +181,7 @@
                         </div>
                         <div class="box-body pad">
                             {% if tid %}
-                            <form action="{% url 'edit_post' %}" method="POST">
+                            <form action="{% url 'edit_post' tid %}" method="POST">
                             {% else %}
                             <form action="{% url 'create' %}" method="POST">
                             {% endif %}

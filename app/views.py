@@ -45,18 +45,22 @@ def create(request):
         content = request.POST.get('content', '')
         username = request.user.username
 
-        if title and content:
-            models.App_SAVE_Text(username, title, content)
+        from app.utli.xss import xss
+        comment_title = xss(comment_content=title)
+        comment_content = xss(comment_content=content)
+
+        if comment_title and comment_content:
+            models.App_SAVE_Text(username, comment_title, comment_content)
 
             return HttpResponseRedirect('/')
 
-        content = {
-            'title': title,
-            'content': content,
+        dic = {
+            'title': comment_title,
+            'content': comment_content,
             'err': u'不能为空'
         }
 
-        return render(request, 'home/editors.html', content)
+        return render(request, 'home/editors.html', dic)
 
 
 @login_required(login_url='/auth/login/')
@@ -68,8 +72,8 @@ def edit(request, tid=None):
         return render(request, 'home/editors.html', dic)
 
     if request.method == 'POST':
-        if app_index.app_edit_post(request, tid):
-            return HttpResponseRedirect('/')
+        print('ID', tid)
+        app_index.app_edit_post(request, tid)
 
         return HttpResponseRedirect('/')
 

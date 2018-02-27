@@ -257,7 +257,7 @@
                             <div class="panel timeline-item">
                                 
                                 <span class="time"><i class="fa fa-clock-o"></i> 
-                                    {{ v|key:"time_now"|safe|time_key:":1" }} 
+                                    {{ v|key:"time_now"|time_key:":1" }} 
                                 </span>
 
                                 <span class="time"><i class="fa fa-user"></i>
@@ -267,7 +267,7 @@
                                 </span>
 
                                 <h3 class="timeline-header"> <a href="#">
-                                    <a data-toggle="collapse" data-parent="#accordion" href='#{{v|key:"id"|safe}}'>{{ v|key:"title" }}</a>
+                                    <a data-toggle="collapse" data-parent="#accordion" href='#{{v|key:"id"|safe}}'>{{ v|key:"title"|safe }}</a>
                                 </h3>
 
                                 <div class="box-footer">
@@ -284,7 +284,7 @@
 
 
                                     {% if value|key:"time"|time_get %}
-                                    <div id='{{v|key:"id"|safe}}' class="panel-collapse collapse in">
+                                    <div id='{{v|key:"id"}}' class="panel-collapse collapse in">
                                         <div class="box-body">
                                             <div class="timeline-body">
                                                {{ v|key:"content"|safe }} 

@@ -9,15 +9,13 @@ import os
 
 
 def setadmin():
-    os.system('pip3.6 install django==1.10')
-    os.system('pip3.6 install markdown')
-    os.system('pip3.6 install uwsgi')
-    os.system('python3.6 manage.py makemigrations')
-    os.system('python3.6 manage.py migrate')
+
+    os.system('python manage.py makemigrations')
+    os.system('python manage.py migrate')
 
     print('接下来您要创建您的管理用户')
-    os.system('python3.6 manage.py createsuperuser')
-    os.system('python3.6 manage.py runserver 0.0.0.0:8080')
+    os.system('python manage.py createsuperuser')
+    os.system('python manage.py runserver 0.0.0.0:8080')
 
 
 setadmin()

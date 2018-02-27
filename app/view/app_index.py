@@ -46,9 +46,13 @@ def index(request):
             if str(usern) == str(username) or pers:
                 tid_user = True
 
+            from app.utli.xss import xss
+            comment_title = xss(comment_content=i.title)
+            comment_content = xss(comment_content=mark)
+
             value.append({
-                "title": i.title,
-                "content": mark,
+                "title": comment_title,
+                "content": comment_content,
                 "username": str(i.username),
                 "time_now": str(data).split('.')[0],
                 "id": ids,
@@ -99,11 +103,7 @@ def index(request):
     return content
 
 
-def app_edit_get(request, tid=None):
-    global tids
-
-    tids = tid
-
+def app_edit_get(request, tid):
     tid_con = models.App_Blog.objects.get(id=tid)
     tid_user = tid_con.username
     username = request.user.username
@@ -116,23 +116,22 @@ def app_edit_get(request, tid=None):
 
 
 def app_edit_post(request, tid):
-    try:
-        if not tid:
-            tid = tids
 
-        title = request.POST.get('title')
-        content = request.POST.get('content')
-        app = models.App_Blog.objects.get(id=tid)
-        app.title = title
-        app.content = content
-        app.save()
-    except Exception as e:
-        return False
+    app = models.App_Blog.objects.get(id=tid)
 
-    return True
+    title = request.POST.get('title')
+    content = request.POST.get('content')
+
+    from app.utli.xss import xss
+    comment_title = xss(comment_content=title)
+    comment_content = xss(comment_content=content)
+
+    app.title = comment_title
+    app.content = comment_content
+    app.save()
 
 
-def app_del_get(request):
+def app_del_get(request, tid):
     tid_con = models.App_Blog.objects.get(id=tid)
     tid_user = tid_con.username
     username = request.user.username
