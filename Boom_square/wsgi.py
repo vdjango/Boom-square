@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "Owl.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "Boom_square.settings")
 
 application = get_wsgi_application()
