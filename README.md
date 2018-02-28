@@ -60,6 +60,7 @@
     * Python > 3.0
     * Django == 1.10
     * Markdown
+    * pytz
 
 * 提供类似玉Nginx的web服务的 **Python** 扩展 [可选 **建议**]
     * setuptools

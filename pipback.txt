@@ -1,4 +1,0 @@
-django==1.10
-markdown
-beautifulsoup4
-uwsgi
