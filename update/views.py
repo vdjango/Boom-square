@@ -13,8 +13,8 @@ from app.utli.datetimenow import UTCS
 是否进行更新任务
 '''
 
-version = '0.1.0'  # 当前版本号
-latest_version = '0.0.0'  # 最新版本
+version = '0.1.2'  # 当前版本号
+latest_version = '0.1.2'  # 最新版本
 release_url = ''
 auth_update = True  # 开启更新
 auth_install = False  # 安装完成
