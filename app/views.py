@@ -16,6 +16,7 @@ from account.permiss.auth_permissions import user_admin
 def user_home(request):
     if request.method == 'GET':
         content = app_index.index(request)
+        print('content', content)
         return render(request, 'home/home.html', content)
 
 
@@ -46,8 +47,13 @@ def create(request):
         username = request.user.username
 
         from app.utli.xss import xss
-        comment_title = xss(comment_content=title)
-        comment_content = xss(comment_content=content)
+        comment_title = title
+        comment_content = content
+
+        print('comment_content', comment_content)
+
+        # comment_title = xss(comment_content=title)
+        # comment_content = xss(comment_content=content)
 
         if comment_title and comment_content:
             models.App_SAVE_Text(username, comment_title, comment_content)

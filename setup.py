@@ -7,41 +7,64 @@
 
 import os
 
+import sys
+import platform
 
-def setadmin():
 
-    Version = input('请输入您当前的python版本号：')
+def set(System, Version):
+
+    install = ['bs4', 'Django==1.10', 'Markdown', 'pytz', 'requests']
+
+    if System == 'Windows':
+        for ins in install:
+            os.system('pip install ' + str(ins))
+
+        os.system('manage.py makemigrations')
+        os.system('manage.py migrate')
+        os.system('manage.py createsuperuser')
+        print('python3.6 manage.py runserver 0.0.0.0:8080')
+        return True
+
     if Version == '36' or Version == '3.6' or Version == '6':
+
+        for ins in install:
+            os.system('pip3.6 install ' + str(ins))
+
         os.system('python3.6 manage.py makemigrations')
         os.system('python3.6 manage.py migrate')
-        print('接下来您要创建您的管理用户')
         os.system('python3.6 manage.py createsuperuser')
-        print('接下来你可以通过命令启动web了： ', '建议使用screen [yum install screen]')
         print('python3.6 manage.py runserver 0.0.0.0:8080')
         return True
 
     if Version == '34' or Version == '3.4' or Version == '4':
+
+        for ins in install:
+            os.system('pip3.4 install ' + str(ins))
+
         os.system('python3.4 manage.py makemigrations')
         os.system('python3.4 manage.py migrate')
-        print('接下来您要创建您的管理用户')
         os.system('python3.4 manage.py createsuperuser')
-        print('接下来你可以通过命令启动web了： ', '建议使用screen [yum install screen]')
         print('python3.4 manage.py runserver 0.0.0.0:8080')
         return True
 
     if Version == '30' or Version == '3.0' or Version == '0' or Version == '3':
+
+        for ins in install:
+            os.system('pip3 install ' + str(ins))
+
         os.system('python3 manage.py makemigrations')
         os.system('python3 manage.py migrate')
-        print('接下来您要创建您的管理用户')
         os.system('python3 manage.py createsuperuser')
-        print('接下来你可以通过命令启动web了： ', '建议使用screen [yum install screen]')
         print('python3 manage.py runserver 0.0.0.0:8080')
         return True
 
-    print('使用方法： ', 'python setup.py [Python版本号]')
-    print('如： ', 'python setup.py 3.6')
-    print('如： ', 'python setup.py 3.4')
-    print('如： ', 'python setup.py 3')
 
+version = sys.version_info
+System = platform.system()
+ver = '%s.%s' % (version.major, version.minor)
 
-setadmin()
+if version < (3, 0):
+    print('At least Python 3.0 is required')
+    # return False
+
+set(System, ver)

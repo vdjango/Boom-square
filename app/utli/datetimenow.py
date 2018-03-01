@@ -22,10 +22,15 @@ def datetimenow(data=None):
     ZONE = pytz.timezone(settings.TIME_ZONE)
     if data == None:
         data = UTCS()
-        print('UTC: ' + str(data))
 
     time = data.astimezone(ZONE)
     # print(time)
+    return time
+
+
+def datetime_ymd():
+    t = datetimenow()
+    time = "%s-%s-%s" % (t.year, t.month, t.day)
     return time
 
 

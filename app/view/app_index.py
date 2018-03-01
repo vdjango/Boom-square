@@ -47,8 +47,11 @@ def index(request):
                 tid_user = True
 
             from app.utli.xss import xss
-            comment_title = xss(comment_content=i.title)
-            comment_content = xss(comment_content=mark)
+            # comment_title = xss(comment_content=i.title)
+            # comment_content = xss(comment_content=mark)
+
+            comment_title = i.title
+            comment_content = mark
 
             value.append({
                 "title": comment_title,
@@ -111,6 +114,7 @@ def app_edit_get(request, tid):
     if str(tid_user) == str(username) or user_admin(str(username)):
         title = tid_con.title
         content = tid_con.content
+        print('content', content)
         dic = {'tid': tid, 'title': title, 'content': content}
         return dic
 
@@ -123,8 +127,11 @@ def app_edit_post(request, tid):
     content = request.POST.get('content')
 
     from app.utli.xss import xss
-    comment_title = xss(comment_content=title)
-    comment_content = xss(comment_content=content)
+    #comment_title = xss(comment_content=title)
+    #comment_content = xss(comment_content=content)
+
+    comment_title = title
+    comment_content = content
 
     app.title = comment_title
     app.content = comment_content

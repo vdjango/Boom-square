@@ -15,8 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from django.contrib.auth.decorators import login_required
-# from app.admin import admin_site
+from controller.controller import handler
 from django.http import HttpResponseRedirect
 
 
@@ -27,6 +26,8 @@ def index(request):
 
 urlpatterns = [
     # adminsetup
+    url(r'^controller/([0-9]+)/$', handler, name='controller'),
+    url(r'^controller/$', handler, name='controllers'),
     url(r'^auth/', include('account.urls')),
     url(r'^user/', include('user.urls')),
     url(r'^app/', include('app.urls')),
