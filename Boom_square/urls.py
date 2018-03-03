@@ -26,8 +26,8 @@ def index(request):
 
 urlpatterns = [
     # adminsetup
-    url(r'^controller/([0-9]+)/$', handler, name='controller'),
-    url(r'^controller/$', handler, name='controllers'),
+    url(r'^controller/([0-9]+)/$', handler, name='controllertid'),
+    url(r'^controller/$', handler, name='controller'),
     url(r'^auth/', include('account.urls')),
     url(r'^user/', include('user.urls')),
     url(r'^app/', include('app.urls')),
@@ -35,3 +35,5 @@ urlpatterns = [
     url(r'^update/', include('update.urls')),
     url(r'^$', index),
 ]
+
+

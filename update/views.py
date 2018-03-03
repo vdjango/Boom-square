@@ -30,16 +30,16 @@ def version_get(request):
     '''
     if request.method == 'GET':
         global number
-        number = update_version_get()
+        global auth_install
+
         print('number', number)
         if int(number) >= 95:
-            global auth_install
             if auth_install:
                 number = 100
                 auth_install = False
 
-            else:
-                number = 95
+        else:
+            number = update_version_get()
 
         print('number', number)
         return JsonResponse(number, safe=False)
@@ -66,11 +66,17 @@ def version_update(request):
 @permission_required(perm='update.update_update_article', login_url='/update/info/')
 def updates(request):
     if request.method == 'GET':
+        global number
+        global auth_install
+        number = 0
+        auth_install = False
 
         from account.permiss.auth_permissions import user_admin
+        from update.utli.wget import set_update
+        set_update()
+
         per = user_admin(request.user.username)
-        if per == False:
-            pass
+
         global latest_version
         global release_url
         global version

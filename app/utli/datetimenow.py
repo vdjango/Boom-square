@@ -5,6 +5,7 @@
 # @Link    : http://www.6box.net
 # @Version : $Id$
 
+import time
 import pytz
 from datetime import datetime
 from django.utils.timezone import utc
@@ -12,9 +13,6 @@ from Boom_square import settings
 
 
 def UTCS():
-    # datetime.datetime.utcnow().replace(tzinfo=utc)
-    # datetime.datetime.strptime('2018-02-11 03:37:43', "%Y-%m-%d %H:%M:%S")
-
     return datetime.utcnow().replace(tzinfo=utc)
 
 
@@ -28,9 +26,17 @@ def datetimenow(data=None):
     return time
 
 
+def datetime_unix():
+    unix = datetimenow()
+    unix = time.mktime(unix.timetuple())
+    return int(unix)
+
+
 def datetime_ymd():
-    t = datetimenow()
-    time = "%s-%s-%s" % (t.year, t.month, t.day)
+    data = datetimenow()
+    time = "%s-%s-%s %s:%s:%s" % (data.year, data.month,
+                                  data.day, data.hour, data.minute, data.second)
+
     return time
 
 

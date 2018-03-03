@@ -8,9 +8,11 @@ from django.views.decorators.csrf import csrf_exempt
 import random
 from datetime import *
 
-ROOT = os.path.dirname(__file__)
+from Boom_square.settings import BASE_DIR
+ROOT = BASE_DIR
 
-TID = 0
+# ROOT = os.path.dirname(__file__)
+
 # 本地上传图片时构造json返回值
 
 
@@ -39,9 +41,8 @@ def buildJsonResult(result):
 def buildFileName(filename):
     dt = datetime.now()
     name, ext = os.path.splitext(filename)
-    nnn = "%s+%s" % (TID, dt.strftime(
-        "%Y-%m-%d-%M-%H-%S-{0}{1}".format(random.randint(1, 999999), ext)))
-    return nnn
+
+    return "%s" % (dt.strftime("%Y-%m-%d-%M-%H-%S-{0}{1}".format(random.randint(1, 999999), ext)))
 
 # 读取json文件
 
@@ -55,23 +56,20 @@ def getConfigContent():
 
 
 class UploadConfig(object):
-    def __init__(self, PathFormat, UploadFieldName, SizeLimit, AllowExtensions, SavePath, Base64, Base64Filename):
+    def __init__(self, PathFormat, UploadFieldName, SizeLimit, AllowExtensions, SavePath, Base64, Base64Filename, tid_unix):
         super(UploadConfig, self).__init__()
 
-        global TID
+        if '{{tid_unix}}' in SavePath:
+            SavePath = str(SavePath).split(
+                '{{tid_unix}}')[0] + tid_unix + '/'
 
-        from app.utli.datetimenow import datetime_ymd
-        TIME = datetime_ymd()
-
-        if '{{tid}}' in SavePath:
-            webUrl = str(SavePath).split(
-                '{{tid}}')[0] + TID + '/'
+        print('SavePath', SavePath)
 
         self.PathFormat = PathFormat
         self.UploadFieldName = UploadFieldName
         self.SizeLimit = SizeLimit
         self.AllowExtensions = AllowExtensions
-        self.SavePath = webUrl
+        self.SavePath = SavePath
         self.Base64 = Base64
         self.Base64Filename = Base64Filename
 
@@ -99,8 +97,7 @@ def CheckFileSize(filesize, SizeLimit):
 
 
 @csrf_exempt
-def uploadFile(request, config):
-    global TID
+def uploadFile(request, config, tid_unix):
     result = JsonResult()
     if config.Base64:
         pass
@@ -119,36 +116,36 @@ def uploadFile(request, config):
             print('error', '文件大小超出服务器限制')
             return HttpResponse(buildJsonResult(result))
 
-        # try:
+        try:
 
-        if not os.path.exists(ROOT + config.SavePath):
-            os.makedirs(ROOT + config.SavePath)
+            if not os.path.exists(ROOT + config.SavePath):
+                os.makedirs(ROOT + config.SavePath)
 
-        truelyName = buildFileName(filename)
+            truelyName = buildFileName(filename)
 
-        webUrl = config.SavePath + truelyName
+            webUrl = config.SavePath + truelyName
 
-        savePath = ROOT + webUrl
+            savePath = ROOT + webUrl
 
-        f = codecs.open(savePath, "wb")
-        for chunk in buf.chunks():
-            f.write(chunk)
+            f = codecs.open(savePath, "wb")
+            for chunk in buf.chunks():
+                f.write(chunk)
 
-        f.flush()
-        f.close()
-        result.state = "SUCCESS"
-        result.url = truelyName
-        result.title = truelyName
-        result.original = truelyName
-        response = HttpResponse(buildJsonResult(result))
-        response["Content-Type"] = "text/plain"
-        return response
-        # except Exception as e:
-        #    result.error = u"网络错误"
-        #    return HttpResponse(buildJsonResult(result))
+            f.flush()
+            f.close()
+            result.state = "SUCCESS"
+            result.url = truelyName
+            result.title = truelyName
+            result.original = truelyName
+            response = HttpResponse(buildJsonResult(result))
+            response["Content-Type"] = "text/plain"
+            return response
+        except Exception as e:
+            result.error = u"网络错误"
+            return HttpResponse(buildJsonResult(result))
 
 
-def listFileManage(request, imageManagerListPath, imageManagerAllowFiles, listsize):
+def listFileManage(request, tid_unix, imageManagerListPath, imageManagerAllowFiles, listsize):
     '''
     处理在线图片与在线文件
     返回的数据格式：
@@ -173,21 +170,21 @@ def listFileManage(request, imageManagerListPath, imageManagerAllowFiles, listsi
     size = psize == None and int(GetConfigValue(listsize)) or int(psize)
 
     localPath = ROOT + imageManagerListPath
-    if '{{tid}}' in localPath:
-        localPath = str(localPath).split(
-            '{{tid}}')[0] + TID + '/'
-
-    print('imagename', localPath)
+    if '{{tid_unix}}' in localPath:
+        localPath = str(localPath).split('{{tid_unix}}')[0] + tid_unix + '/'
 
     filelist = []
     exts = list(imageManagerAllowFiles)
     index = start
     list_dirs = os.walk(localPath)
     for root, dirs, files in list_dirs:
+
         for d in files:
             name, ext = os.path.splitext(d)
+
             if ext in exts:
                 filelist.append(dict(url=d))
+                print('filelist', filelist)
                 index += 1
                 if index - start >= size:
                     break
@@ -198,7 +195,7 @@ def listFileManage(request, imageManagerListPath, imageManagerAllowFiles, listsi
 
 
 # 返回配置信息
-def configHandler(request):
+def configHandler(request, tid_unix):
     content = getConfigContent()
     callback = request.GET.get("callback")
 
@@ -206,38 +203,38 @@ def configHandler(request):
     fileUrlPrefix = content['fileUrlPrefix']
     videoUrlPrefix = content['videoUrlPrefix']
     fileManagerListPath = content['fileManagerListPath']
-    imageManagerListPath = content['imageManagerListPath']
+    fileManagerUrlPrefix = content['fileManagerUrlPrefix']
 
+    imageManagerListPath = content['imageManagerListPath']
     imageManagerUrlPrefix = content['imageManagerUrlPrefix']
 
-    global TID
-
-    from app.utli.datetimenow import datetime_ymd
-    TIME = datetime_ymd()
-
-    if '{{tid}}' in imageUrlPrefix:
+    if '{{tid_unix}}' in imageUrlPrefix:
         imageUrlPrefix = str(imageUrlPrefix).split(
-            '{{tid}}')[0] + TID + '/'
+            '{{tid_unix}}')[0] + tid_unix + '/'
 
-    if '{{tid}}' in fileUrlPrefix:
+    if '{{tid_unix}}' in fileUrlPrefix:
         fileUrlPrefix = str(fileUrlPrefix).split(
-            '{{tid}}')[0] + TID + '/'
+            '{{tid_unix}}')[0] + tid_unix + '/'
 
-    if '{{tid}}' in fileUrlPrefix:
+    if '{{tid_unix}}' in videoUrlPrefix:
         videoUrlPrefix = str(videoUrlPrefix).split(
-            '{{tid}}')[0] + TID + '/'
+            '{{tid_unix}}')[0] + tid_unix + '/'
 
-    if '{{tid}}' in fileManagerListPath:
+    if '{{tid_unix}}' in fileManagerListPath:
         fileManagerListPath = str(fileManagerListPath).split(
-            '{{tid}}')[0] + TID + '/'
+            '{{tid_unix}}')[0] + tid_unix + '/'
 
-    if '{{tid}}' in imageManagerListPath:
-        imageManagerListPath = str(imageManagerListPath).split(
-            '{{tid}}')[0] + TID + '/'
+    if '{{tid_unix}}' in fileManagerUrlPrefix:
+        fileManagerUrlPrefix = str(fileManagerUrlPrefix).split('{{tid_unix}}')[
+            0] + tid_unix + '/'
 
-    if '{{tid}}' in imageManagerUrlPrefix:
-        imageManagerUrlPrefix = str(imageManagerUrlPrefix).split(
-            '{{tid}}')[0] + TID + '/'
+    if '{{tid_unix}}' in imageManagerListPath:
+        imageManagerListPath = str(imageManagerListPath).split('{{tid_unix}}')[
+            0] + tid_unix + '/'
+
+    if '{{tid_unix}}' in imageManagerUrlPrefix:
+        imageManagerUrlPrefix = str(imageManagerUrlPrefix).split('{{tid_unix}}')[
+            0] + tid_unix + '/'
 
     dic = {
         "imageActionName": content["imageActionName"],
@@ -281,7 +278,7 @@ def configHandler(request):
 
         "fileActionName": content["fileActionName"],
         "fileFieldName": content["fileFieldName"],
-        "filePathFormat": content["filePathFormat"],
+        "filePathFormat": fileUrlPrefix,
         "fileUrlPrefix": fileUrlPrefix,
         "fileMaxSize": content["fileMaxSize"],
         "fileAllowFiles": content["fileAllowFiles"],
@@ -296,10 +293,12 @@ def configHandler(request):
         "fileManagerActionName": content["fileManagerActionName"],
         "fileManagerListPath": fileManagerListPath,
         # content["fileManagerUrlPrefix"],
-        "fileManagerUrlPrefix": content["fileManagerUrlPrefix"],
+        "fileManagerUrlPrefix": fileManagerUrlPrefix,
         "fileManagerListSize": content["fileManagerListSize"],
         "fileManagerAllowFiles": content["fileManagerAllowFiles"]
     }
+
+    print('fileManagerListPath', fileManagerListPath)
 
     if callback:
         return HttpResponse("{0}{1}".format(callback, json.dumps(dic)))
@@ -309,7 +308,7 @@ def configHandler(request):
 
 
 @csrf_exempt
-def uploadimageHandler(request):
+def uploadimageHandler(request, tid_unix):
     UploadFieldName = GetConfigValue("imageFieldName")
     SizeLimit = GetConfigValue("imageMaxSize")
     AllowExtensions = GetConfigValue("imageAllowFiles")
@@ -318,67 +317,103 @@ def uploadimageHandler(request):
     SavePath = GetConfigValue("imageUrlPrefix")
 
     upconfig = UploadConfig(PathFormat, UploadFieldName,
-                            SizeLimit, AllowExtensions, SavePath, False, '')
+                            SizeLimit, AllowExtensions, SavePath, False, '', tid_unix)
 
-    return uploadFile(request, upconfig)
+    return uploadFile(request, upconfig, tid_unix)
 
 
-def uploadvideoHandler(request):
+def uploadvideoHandler(request, tid_unix):
     AllowExtensions = GetConfigValue("videoAllowFiles")
     PathFormat = GetConfigValue("videoPathFormat")
     SizeLimit = GetConfigValue("videoMaxSize")
     UploadFieldName = GetConfigValue("videoFieldName")
     SavePath = GetConfigValue("videoUrlPrefix")
     upconfig = UploadConfig(PathFormat, UploadFieldName,
-                            SizeLimit, AllowExtensions, SavePath, False, '')
-    return uploadFile(request, upconfig)
+                            SizeLimit, AllowExtensions, SavePath, False, '', tid_unix)
+    return uploadFile(request, upconfig, tid_unix)
 
 
-def uploadfileHandler(request):
+def uploadfileHandler(request, tid_unix):
     AllowExtensions = GetConfigValue("fileAllowFiles")
     PathFormat = GetConfigValue("filePathFormat")
     SizeLimit = GetConfigValue("fileMaxSize")
     UploadFieldName = GetConfigValue("fileFieldName")
     SavePath = GetConfigValue("fileUrlPrefix")
     upconfig = UploadConfig(PathFormat, UploadFieldName,
-                            SizeLimit, AllowExtensions, SavePath, False, '')
-    return uploadFile(request, upconfig)
+                            SizeLimit, AllowExtensions, SavePath, False, '', tid_unix)
+    return uploadFile(request, upconfig, tid_unix)
 
 
 # 在线图片
-def listimageHandler(request):
+def listimageHandler(request, tid_unix):
     imageManagerListPath = GetConfigValue("imageManagerListPath")  # 路径
     imageManagerAllowFiles = GetConfigValue("imageManagerAllowFiles")  # 类型
     imagelistsize = GetConfigValue("imageManagerListSize")  # 大小
-    return listFileManage(request, imageManagerListPath, imageManagerAllowFiles, imagelistsize)
+    return listFileManage(request, tid_unix, imageManagerListPath, imageManagerAllowFiles, imagelistsize)
 
 
 # 在线文件
 
-def ListFileManagerHander(request):
+def ListFileManagerHander(request, tid_unix):
     fileManagerListPath = GetConfigValue("fileManagerListPath")
     fileManagerAllowFiles = GetConfigValue("fileManagerAllowFiles")
     filelistsize = GetConfigValue("fileManagerListSize")
-    return listFileManage(request, fileManagerListPath, fileManagerAllowFiles, filelistsize)
+    return listFileManage(request, tid_unix, fileManagerListPath, fileManagerAllowFiles, filelistsize)
 
 
-def deleteimageHandler(request):
-    # /controller/?action=imgdel&del=20180301471736412080.png
-    global TID
-
-    image = request.GET.get('img_name')
+def deleteimageHandler(request, tid_unix=None):
+    err = "null"
+    SUCCESS = "SUCCESS"
+    image = request.POST.get("path")
     path = GetConfigValue("imageUrlPrefix")
 
-    ath = str(image).split('+')[0]
+    if '{{tid_unix}}' in path:
+        print('path', image)
+        path = str(path).split('{{tid_unix}}')[0] + str(tid_unix) + '/' + image
+    else:
+        path = str(path) + str(tid_unix) + '/' + image
 
-    if '{{tid}}' in path:
-        path = str(path).split('{{tid}}')[0] + str(ath) + '/' + image
-        path = ROOT + path
+    path = ROOT + path
+    print('path', path)
+    try:
         os.remove(path)
-        print('path', path)
-        pass
+    except Exception as e:
+        err = "删除失败"
+        SUCCESS = "删除失败"
+        raise e
 
-    # return path
+    jsondata = {"state": str(SUCCESS), "url": str(image),
+                "title": str(image), "original": str(image), "error": str(err)}
+    print('buildJsonResult', jsondata)
+    return HttpResponse(json.dumps(jsondata))
+
+
+def deletefileHandler(request, tid_unix=None):
+    # /controller/?action=imgdel&del=20180301471736412080.png
+    err = "null"
+    SUCCESS = "SUCCESS"
+    image = request.POST.get("path")
+    path = GetConfigValue("fileUrlPrefix")
+
+    if '{{tid_unix}}' in path:
+        print('path', image)
+        path = str(path).split('{{tid_unix}}')[0] + str(tid_unix) + '/' + image
+    else:
+        path = str(path) + str(tid_unix) + '/' + image
+
+    path = ROOT + path
+    print('path', path)
+    try:
+        os.remove(path)
+    except Exception as e:
+        err = "删除失败"
+        SUCCESS = "删除失败"
+        raise e
+
+    jsondata = {"state": str(SUCCESS), "url": str(image),
+                "title": str(image), "original": str(image), "error": str(err)}
+    print('buildJsonResult', jsondata)
+    return HttpResponse(json.dumps(jsondata))
 
 
 actions = {
@@ -388,14 +423,17 @@ actions = {
     "uploadfile": uploadfileHandler,
     "listimage": listimageHandler,
     "listfile": ListFileManagerHander,
-    "imageDelUrl": deleteimageHandler,
+    "deleteimage": deleteimageHandler,
+    "deletefile": deletefileHandler,
 }
 
 
 @csrf_exempt
 def handler(request, tid=None):
-    global TID
-    TID = tid
-    print('value', TID)
+    unix = request.GET.get('unix')
+
+    print('XXXXXXXXXX', unix)
+
     action = request.GET.get("action")
-    return actions.get(action)(request)
+
+    return actions.get(action)(request, unix)

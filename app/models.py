@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from django.contrib.auth.models import User
-import json
 
 
 def App_GET_Text_all():
@@ -22,11 +21,13 @@ def App_SAVE_Text(username, title, content, time_now=None):
     data = UTCS()
     times = "%s-%s-%s %s:%s:%s" % (data.year, data.month,
                                    data.day, data.hour, data.minute, data.second)
+
     usernames = User.objects.get(username=username)
 
     if time_now == None:
         App_b = App_Blog(title=title, content=content,
                          time_add=times, time_now=times, username=usernames)
+
     else:
         App_b = App_Blog(title=title, content=content,
                          time_now=time_now, username=usernames)
@@ -58,6 +59,7 @@ class App_Blog(models.Model):
     time_add = models.DateTimeField(auto_now=False)  # 创建
     time_now = models.DateTimeField(auto_now=True)  # 更新
     username = models.ForeignKey(User, on_delete=models.CASCADE)
+    tid_unix = models.CharField(max_length=14)
 
     class Meta:
         ordering = ['-time_now']

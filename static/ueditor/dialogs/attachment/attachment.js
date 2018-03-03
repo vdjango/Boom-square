@@ -703,6 +703,26 @@
 
                     item.appendChild(preview);
                     item.appendChild(icon);
+
+                                        //增加删除按钮
+                    item.appendChild($("<span class='delbtn' url='" + list[i].url + "'>✖</span>").click(function() {
+                        var del = $(this);
+                        try {
+                            window.event.cancelBubble = true; //停止冒泡
+                            window.event.returnValue = false; //阻止事件的默认行为
+                            window.event.preventDefault(); //取消事件的默认行为 
+                            window.event.stopPropagation(); //阻止事件的传播
+                        } finally {
+                            $.post(editor.getOpt("serverUrl") + "&action=deletefile", { "path": del.attr("url") },
+                                function(result) {
+                                    if (result.indexOf("SUCCESS") > -1) {
+                                        del.parent().remove();
+                                    } else alert(result);
+                                });
+                        }
+                    })[0]);
+
+                    
                     this.list.insertBefore(item, this.clearFloat);
                 }
             }

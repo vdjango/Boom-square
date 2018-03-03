@@ -194,7 +194,7 @@
                             {% if tid %}
                             <form action="{% url 'edit_post' tid %}" method="POST">
                             {% else %}
-                            <form action="{% url 'create' %}" method="POST">
+                            <form action="{% url 'create' %}?unix={{unix}}" method="POST">
                             {% endif %}
 
                                 {% csrf_token %}
@@ -254,26 +254,33 @@
     <!-- FastClick -->
 
     <script src="{% static '/ueditor/ueditor.config.js' %}" type="text/javascript"></script>
-        
+
     <script src="{% static '/ueditor/ueditor.all.js' %}" type="text/javascript"></script>
 
 
-    <script type="text/javascript">
+    {% if tid %}
+        <script type="text/javascript">
             var ue = UE.getEditor('container',{
-                serverUrl: "{% url 'controller' tid %}",
+                serverUrl: "{% url 'controllertid' tid %}?unix={{unix}}",
                 autoHeightEnabled: true,
                 autoFloatEnabled: true, 
-
-
+                initialFrameHeight: 250,
+                allowDivTransToP: false//阻止div标签自动转换为p标签
+            });
+            var lang = ue.getOpt('lang'); //默认返回：zh-cn
+        </script>
+    {% else %}
+        <script type="text/javascript">
+            var ue = UE.getEditor('container',{
+                serverUrl: "{% url 'controller' %}?unix={{unix}}",
+                autoHeightEnabled: true,
+                autoFloatEnabled: true, 
                 initialFrameHeight: 250,           
                 allowDivTransToP: false//阻止div标签自动转换为p标签
-
             });
-
             var lang = ue.getOpt('lang'); //默认返回：zh-cn
-
-     </script>
-
+        </script>
+    {% endif %}
 </body>
 
 </html>

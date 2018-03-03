@@ -11,6 +11,9 @@ from app import models
 from django.contrib.auth.decorators import login_required, permission_required
 from app.view import app_index
 from account.permiss.auth_permissions import user_admin
+from app.utli.xss import xss
+from Boom_square.settings import BASE_DIR
+ROOT = BASE_DIR
 
 
 def user_home(request):
@@ -33,30 +36,41 @@ def create(request):
             pers = user_admin(str(username))
             auth_logins = True
 
+        from app.utli.datetimenow import datetime_unix
+        a_tid_unix = "%s" % str(datetime_unix())
+
         content = {
             'auth_login': auth_logins,
             'username': str(username),  # 用户名称
             'admin': pers,  # 超级管理员
+            'unix': a_tid_unix,
         }
 
         return render(request, 'home/editors.html', content)
 
     if request.method == 'POST':
-        title = request.POST.get('title', '')
-        content = request.POST.get('content', '')
+        comment_title = request.POST.get('title', '')
+        comment_content = request.POST.get('content', '')
+        comment_unix = request.GET.get('unix')
         username = request.user.username
-
-        from app.utli.xss import xss
-        comment_title = title
-        comment_content = content
-
-        print('comment_content', comment_content)
-
-        # comment_title = xss(comment_content=title)
-        # comment_content = xss(comment_content=content)
+        comment_title = xss(comment_title)
 
         if comment_title and comment_content:
-            models.App_SAVE_Text(username, comment_title, comment_content)
+
+            from app.models import App_Blog
+            from django.contrib.auth.models import User
+            from app.utli.datetimenow import datetime_ymd
+            a_time = datetime_ymd()
+            user = User.objects.get(username=username)
+
+            App_Blog(
+                title=comment_title,
+                content=comment_content,
+                time_add=a_time,
+                time_now=a_time,
+                username=user,
+                tid_unix=comment_unix
+            ).save()
 
             return HttpResponseRedirect('/')
 
@@ -74,12 +88,37 @@ def create(request):
 def edit(request, tid=None):
 
     if request.method == 'GET':
-        dic = app_index.app_edit_get(request, tid)
+        unix = request.GET.get('unix')
+        print('unix', unix)
+        dic = app_index.app_edit_get(request, tid, unix)
+
         return render(request, 'home/editors.html', dic)
 
     if request.method == 'POST':
         print('ID', tid)
-        app_index.app_edit_post(request, tid)
+        #app_index.app_edit_post(request, tid)
+
+        from app.models import App_Blog
+        from django.contrib.auth.models import User
+        from app.utli.datetimenow import datetime_ymd, datetime_unix
+
+        username = request.user.username
+
+        users = User.objects.get(username=username)
+
+        u_id = users.id
+
+        con = App_Blog.objects.get(id=tid)
+
+        comment_title = request.POST.get('title')
+        comment_content = request.POST.get('content')
+
+        from app.utli.xss import xss
+        comment_title = xss(comment_title)
+        con.title = comment_title
+        con.content = comment_content
+        con.username = users
+        con.save()
 
         return HttpResponseRedirect('/')
 
@@ -88,12 +127,16 @@ def edit(request, tid=None):
 @permission_required(perm='app.app_delete_article', login_url='/app/info/')
 def delete(request, tid):
     if request.method == 'GET':
+        unix = request.GET.get('unix')
+
+        path = ROOT + '/static/upload'
         tid_con = models.App_Blog.objects.get(id=tid)
         tid_user = tid_con.username
         username = request.user.username
 
         if str(tid_user) == str(username) or user_admin(str(username)):
-            print('删除', tid_user, '==', username)
+            from app.utli.rm import rm
+            rm(path, unix)
             tid_con.delete()
 
         return HttpResponseRedirect('/')

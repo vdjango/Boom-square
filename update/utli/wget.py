@@ -65,5 +65,11 @@ def wget(url, filePath='file.zip'):
         return False, '下载失败'
 
 
+def set_update():
+    global down_line
+    down_line = 0
+    return down_line
+
+
 def update_version_get():
     return down_line

@@ -47,10 +47,9 @@ def index(request):
                 tid_user = True
 
             from app.utli.xss import xss
-            # comment_title = xss(comment_content=i.title)
+            comment_title = xss(i.title)
             # comment_content = xss(comment_content=mark)
 
-            comment_title = i.title
             comment_content = mark
 
             value.append({
@@ -59,7 +58,8 @@ def index(request):
                 "username": str(i.username),
                 "time_now": str(data).split('.')[0],
                 "id": ids,
-                "tid_user": tid_user
+                "tid_user": tid_user,
+                "unix": i.tid_unix,
             }
             )
 
@@ -106,7 +106,7 @@ def index(request):
     return content
 
 
-def app_edit_get(request, tid):
+def app_edit_get(request, tid, unix):
     tid_con = models.App_Blog.objects.get(id=tid)
     tid_user = tid_con.username
     username = request.user.username
@@ -114,28 +114,15 @@ def app_edit_get(request, tid):
     if str(tid_user) == str(username) or user_admin(str(username)):
         title = tid_con.title
         content = tid_con.content
-        print('content', content)
-        dic = {'tid': tid, 'title': title, 'content': content}
+        print('content', unix)
+
+        dic = {
+            'tid': tid,
+            'title': title,
+            'content': content,
+            'unix': unix
+        }
         return dic
-
-
-def app_edit_post(request, tid):
-
-    app = models.App_Blog.objects.get(id=tid)
-
-    title = request.POST.get('title')
-    content = request.POST.get('content')
-
-    from app.utli.xss import xss
-    #comment_title = xss(comment_content=title)
-    #comment_content = xss(comment_content=content)
-
-    comment_title = title
-    comment_content = content
-
-    app.title = comment_title
-    app.content = comment_content
-    app.save()
 
 
 def app_del_get(request, tid):

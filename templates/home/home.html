@@ -302,16 +302,16 @@
                                                         <span class="caret"></span>
                                                     </button>
                                                     <ul class="dropdown-menu" role="menu">
-                                                        <li><a href="{% url 'edit' v.id %}">编辑</a></li>
-                                                        <li><a href="{% url 'delete' v.id %}">删除</a></li>
+                                                        <li><a href="{% url 'edit' v.id %}?unix={{v.unix}}">编辑</a></li>
+                                                        <li><a href="{% url 'delete' v.id %}?unix={{v.unix}}">删除</a></li>
                                                     </ul>
                                                     {% else %}
                                                     <button type="button" class="btn btn-default btn-sm dropdown-toggle disabled" data-toggle="dropdown">
                                                         <span class="caret"></span>
                                                     </button>
                                                     <ul class="dropdown-menu" role="menu">
-                                                        <li><a href="{% url 'edit' v.id %}">编辑</a></li>
-                                                        <li><a href="{% url 'delete' v.id %}">删除</a></li>
+                                                        <li><a href="{% url 'edit' v.id %}?unix={{v.unix}}">编辑</a></li>
+                                                        <li><a href="{% url 'delete' v.id %}?unix={{v.unix}}">删除</a></li>
                                                     </ul>
                                                     {% endif %}
                                                 </div>
@@ -336,16 +336,16 @@
                                                         <span class="caret"></span>
                                                     </button>
                                                     <ul class="dropdown-menu" role="menu">
-                                                        <li><a href="{% url 'edit' v.id %}">编辑</a></li>
-                                                        <li><a href="{% url 'delete' v.id %}">删除</a></li>
+                                                        <li><a href="{% url 'edit' v.id %}?unix={{v.unix}}">编辑</a></li>
+                                                        <li><a href="{% url 'delete' v.id %}?unix={{v.unix}}">删除</a></li>
                                                     </ul>
                                                     {% else %}
                                                     <button type="button" class="btn btn-default btn-sm dropdown-toggle disabled" data-toggle="dropdown">
                                                         <span class="caret"></span>
                                                     </button>
                                                     <ul class="dropdown-menu" role="menu">
-                                                        <li><a href="{% url 'edit' v.id %}">编辑</a></li>
-                                                        <li><a href="{% url 'delete' v.id %}">删除</a></li>
+                                                        <li><a href="{% url 'edit' v.id %}?unix={{v.unix}}">编辑</a></li>
+                                                        <li><a href="{% url 'delete' v.id %}?unix={{v.unix}}">删除</a></li>
                                                     </ul>
                                                     {% endif %}
                                                 </div>
@@ -421,8 +421,7 @@
 <script src="{%static 'dist/js/adminlte.min.js'%}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{%static 'dist/js/demo.js'%}"></script>
-<!-- CK Editor -->
-<script src="{%static 'ckeditor/ckeditor.js'%}"></script>
+
 <script src="{%static 'select2/dist/js/select2.full.min.js'%}"></script>
 
 <!-- InputMask -->

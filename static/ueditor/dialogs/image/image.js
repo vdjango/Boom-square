@@ -901,18 +901,6 @@
                 urlPrefix = editor.getOpt('imageManagerUrlPrefix');
             for (i = 0; i < list.length; i++) {
                 if(list[i] && list[i].url) {
-
-
-                    del = document.createElement('a');
-                    del.innerHTML = '删除';
-                    domUtils.addClass(del, 'del');
-                    var delid='imagelist_'+i;
-                    del.setAttribute('id',delid);
-                    del.setAttribute('href','javascript:;');
-                    del.setAttribute('onclick','uedel("'+list[i].url+'","'+delid+'")');
-
-
-
                     item = document.createElement('li');
                     img = document.createElement('img');
                     icon = document.createElement('span');
@@ -929,7 +917,26 @@
 
                     item.appendChild(img);
                     item.appendChild(icon);
-                    item.appendChild(del);
+
+                                        //增加删除按钮
+                    item.appendChild($("<span class='delbtn' url='" + list[i].url + "'>✖</span>").click(function() {
+                        var del = $(this);
+                        try {
+                            window.event.cancelBubble = true; //停止冒泡
+                            window.event.returnValue = false; //阻止事件的默认行为
+                            window.event.preventDefault(); //取消事件的默认行为 
+                            window.event.stopPropagation(); //阻止事件的传播
+                        } finally {
+                            $.post(editor.getOpt("serverUrl") + "&action=deleteimage", { "path": del.attr("url") },
+                                function(result) {
+                                    if (result.indexOf("SUCCESS") > -1) {
+                                        del.parent().remove();
+                                    } else alert(result);
+                                });
+                        }
+                    })[0]);
+
+                    
                     this.list.insertBefore(item, this.clearFloat);
                 }
             }

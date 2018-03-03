@@ -76,6 +76,7 @@ function Music() {
 
             utils.loadFile(document, {
                 src:me.dataUrl + '&query=' + param + '&page_size=' + me.total + '&callback=music.callback&.r=' + Math.random(),
+                
                 tag:"script",
                 type:"text/javascript",
                 defer:"defer"
