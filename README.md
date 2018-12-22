@@ -204,8 +204,8 @@ class SomeClass:
 -----
 
 ## *☆* 反馈与建议
-- Q群：661890020
-- 邮箱：job@6box.net
+- Q群：828816138
+- 邮箱：vdjango@vip.qq.com
 
 
 
